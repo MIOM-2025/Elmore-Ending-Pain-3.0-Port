@@ -46,9 +46,10 @@ function create() {
     DiscordUtil.call("onMenuLoaded", ["Warning"]);
 
     try {
-        vhsShader = new CustomShader("vhs");
         applyVhsSettings();
-        try { vhsShader.setInt("uFrame", 0); } catch (e:Dynamic) {}
+        if (vhsShader != null) {
+            try { vhsShader.setInt("uFrame", 0); } catch (e:Dynamic) {}
+        }
     } catch (e:Dynamic) {
         vhsShader = null;
     }
@@ -104,20 +105,27 @@ function create() {
 }
 
 function applyVhsSettings() {
-    if (vhsShader == null) return;
-
     var vhsOn:Bool = (FlxG.save.data == null || FlxG.save.data.vhsEnabled != false);
     var vhsCurve:Bool = (FlxG.save.data == null || FlxG.save.data.vhsCurve != false);
+    var vhsNew:Bool = (FlxG.save.data != null && FlxG.save.data.vhsNew == true);
+    var shaderName:String = vhsNew ? "vhs_new" : "vhs";
 
-    try { FlxG.camera.removeShader(vhsShader); } catch (e:Dynamic) {}
+    if (vhsShader != null) {
+        try { FlxG.camera.removeShader(vhsShader); } catch (e:Dynamic) {}
+        vhsShader = null;
+    }
 
-    if (vhsOn) {
-        try { FlxG.camera.addShader(vhsShader); } catch (e:Dynamic) {}
+    if (!vhsOn) return;
+
+    try {
+        vhsShader = new CustomShader(shaderName);
+        FlxG.camera.addShader(vhsShader);
         try { vhsShader.setFloat("uInterlace", 1.0); } catch (e:Dynamic) {}
         var curveVal:Float = vhsCurve ? 4.0 : 0.0;
         try { vhsShader.uCurvature = curveVal; } catch (e:Dynamic) {}
         try { vhsShader.setFloat("uCurvature", curveVal); } catch (e:Dynamic) {}
-        try { trace("[EEP-DIAG] vhs curve=" + vhsCurve + " val=" + curveVal + " has=" + Reflect.hasField(vhsShader.data, "uCurvature")); } catch (e:Dynamic) {}
+    } catch (e:Dynamic) {
+        vhsShader = null;
     }
 }
 
@@ -236,8 +244,8 @@ function createMoreOptionsButton() {
 }
 
 function createMoreOptionsMenu() {
-    var labels = ["Censor Health Icons", "VHS Shader", "CRT Curvature"];
-    var keys   = ["censorHealth", "vhsEnabled", "vhsCurve"];
+    var labels = ["Censor Health Icons", "VHS Shader", "CRT Curvature", "New VHS Filter"];
+    var keys   = ["censorHealth", "vhsEnabled", "vhsCurve", "vhsNew"];
 
     moreOptionsPanelGroup = new FlxSpriteGroup();
     add(moreOptionsPanelGroup);
@@ -497,7 +505,7 @@ function toggleOption(opt) {
         }
     }
 
-    if (opt.key == "vhsEnabled" || opt.key == "vhsCurve") applyVhsSettings();
+    if (opt.key == "vhsEnabled" || opt.key == "vhsCurve" || opt.key == "vhsNew") applyVhsSettings();
 }
 
 function update(elapsed:Float) {

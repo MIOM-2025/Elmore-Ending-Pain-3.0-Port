@@ -29,6 +29,8 @@ function postCreate() {
     var vhsOn:Bool = (FlxG.save.data == null || FlxG.save.data.vhsEnabled != false);
     var vhsCurve:Bool = (FlxG.save.data == null || FlxG.save.data.vhsCurve != false);
     if (vhsOn) {
+        var vhsNew:Bool = (FlxG.save.data != null && FlxG.save.data.vhsNew == true);
+        vhsShader = new CustomShader(vhsNew ? "vhs_new" : "vhs");
         camGame.addShader(vhsShader);
         camHUD.addShader(vhsShader);
         var curveVal:Float = vhsCurve ? 4.0 : 0.0;

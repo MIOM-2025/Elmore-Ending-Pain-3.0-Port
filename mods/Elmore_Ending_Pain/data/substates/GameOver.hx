@@ -47,7 +47,8 @@ function startSnow() {
     started = true;
 
     // ---- VHS / CRT 四角弯曲 ----
-    var vhsShader = new CustomShader("vhs");
+    var vhsNew:Bool = (FlxG.save.data != null && FlxG.save.data.vhsNew == true);
+    var vhsShader = new CustomShader(vhsNew ? "vhs_new" : "vhs");
     try { camOver.addShader(vhsShader); } catch (e0:Dynamic) {}
     try { vhsShader.setFloat("uInterlace", 1.0); } catch (e1:Dynamic) {}
     try { vhsShader.uCurvature = 4.0; } catch (e2:Dynamic) {}

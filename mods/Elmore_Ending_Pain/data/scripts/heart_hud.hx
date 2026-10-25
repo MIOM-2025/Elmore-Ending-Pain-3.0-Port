@@ -6,6 +6,7 @@ public var finesHP:FlxSpriteGroup;
 public var grpHudUIAssets:FlxSpriteGroup;
 var heart:FlxSprite;
 var bords:FlxSprite;
+var usingLife2:Bool = false;
 
 // ===== 血量块尺寸 =====
 var hpCanvasW:Int = 36;
@@ -39,6 +40,7 @@ function postCreate() {
     var censorHealth:Bool = (FlxG.save.data != null && FlxG.save.data.censorHealth == true);
     var heartAsset:String = censorHealth ? "hud/life2" : "hud/heart";
     if (censorHealth && !Assets.exists(Paths.image(heartAsset))) heartAsset = "hud/heart";
+    usingLife2 = (heartAsset == "hud/life2");
     heart = new FlxSprite(88, 600 + (Options.downscroll) ? 75 : 630).loadGraphic(Paths.image(heartAsset));
     heart.scale.set(0.55, 0.55);
     grpHudUIAssets.add(heart);
@@ -90,7 +92,8 @@ function syncHpPositions() {
 
 function beatHit() {
     if (curBeat % 2 == 0) {
-        heart.scale.set(0.63, 0.63);
+        // The alternate VHS heart stays static; only the health bars pulse.
+        if (!usingLife2) heart.scale.set(0.63, 0.63);
         triggerPulseWave();
     }
 }
@@ -134,7 +137,8 @@ function onPlayerMiss(event) {
 }
 
 function postUpdate() {
-    heart.scale.set(lerp(heart.scale.x, 0.55, 0.2), lerp(heart.scale.y, 0.55, 0.2));
+    if (!usingLife2)
+        heart.scale.set(lerp(heart.scale.x, 0.55, 0.2), lerp(heart.scale.y, 0.55, 0.2));
 
     syncHpPositions();
 
