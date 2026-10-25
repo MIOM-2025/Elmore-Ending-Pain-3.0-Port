@@ -4,6 +4,7 @@ importScript("data/scripts/comboScript");
 import flixel.math.FlxBasePoint;
 
 public var vhsShader = new CustomShader("vhs");
+public var curveShader = new CustomShader("curvature");
 public var camChain:FlxCamera = new FlxCamera();
 public var opponentStrum:Array<FlxBasePoint> = [];
 public var playerStrum:Array<FlxBasePoint> = [];
@@ -33,6 +34,11 @@ function postCreate() {
         var curveVal:Float = vhsCurve ? 4.0 : 0.0;
         try { vhsShader.uCurvature = curveVal; } catch (e:Dynamic) {}
         try { vhsShader.setFloat("uCurvature", curveVal); } catch (e:Dynamic) {}
+        if (vhsCurve) {
+            camChain.addShader(curveShader);
+            try { curveShader.uCurvature = curveVal; } catch (e:Dynamic) {}
+            try { curveShader.setFloat("uCurvature", curveVal); } catch (e:Dynamic) {}
+        }
     }
 
     add(asLogo = new FlxSprite(900, 850 + (Options.downscroll) ? 900 : 850).loadGraphic(Paths.image("as")));

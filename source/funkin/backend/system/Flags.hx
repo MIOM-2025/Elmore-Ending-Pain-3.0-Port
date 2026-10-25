@@ -52,8 +52,8 @@ class Flags {
 
 	@:lazy public static var VERSION_MESSAGE:String = "Codename Engine" + ' v$VERSION';
 
-	public static var REPO_NAME:String = "dustin-build";
-	public static var REPO_OWNER:String = "lunarcleint";
+	public static var REPO_NAME:String = "Elmore-Ending-Pain-3.0-Port";
+	public static var REPO_OWNER:String = "MIOM-2025";
 	public static var REPO_URL:String = 'https://github.com/$REPO_OWNER/$REPO_NAME';
 
 	/**

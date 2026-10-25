@@ -1,7 +1,7 @@
 name: iOS Build
 on:
   push:
-    branches: ['master']
+    branches: ['main']
   workflow_dispatch:
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
           key: cache-build-ios
           path: |
             .haxelib/
-            export/release/ios/dustin/haxe/
+            export/release/ios/Elmore_Ending_Pain/haxe/
           restore-keys: |
             cache-build-ios
       - name: Installing/Updating libraries
@@ -58,16 +58,16 @@ jobs:
       - name: Making ipa file
         run: |
           brew install ldid
-          cd export/release/ios/build/Release-iphoneos/dustin.app
-          ldid -S../../../dustin/dustin.entitlements dustin
+          cd export/release/ios/build/Release-iphoneos/Elmore_Ending_Pain.app
+          ldid -S../../../Elmore_Ending_Pain/Elmore_Ending_Pain.entitlements Elmore_Ending_Pain
           cd ..
           mkdir Payload
-          mv dustin.app Payload
-          zip -r dustin.ipa Payload
+          mv Elmore_Ending_Pain.app Payload
+          zip -r Elmore-Ending-Pain-3.0-Port.ipa Payload
       - name: Uploading artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Dustin' IOS
+          name: Elmore-Ending-Pain-3.0-Port-IOS
           path: export/release/ios/build/Release-iphoneos/*.ipa
       - name: Uploading new cache
         uses: actions/cache@v4.2.3
@@ -76,6 +76,6 @@ jobs:
           key: cache-build-ios
           path: |
             .haxelib/
-            export/release/ios/dustin/haxe
+            export/release/ios/Elmore_Ending_Pain/haxe
           restore-keys: |
             cache-build-ios
