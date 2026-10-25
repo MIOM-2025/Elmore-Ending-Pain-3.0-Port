@@ -1,5 +1,0 @@
-import UndertaleText;
-
-function create() {
-
-}

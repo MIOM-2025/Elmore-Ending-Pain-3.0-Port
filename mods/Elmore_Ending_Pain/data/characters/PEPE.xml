@@ -1,0 +1,8 @@
+<!DOCTYPE codename-engine-character>
+<character scale="0.8" flipX="true" isPlayer="true">
+	<anim name="idle" anim="PEPE idle"/>
+	<anim name="singDOWN" anim="PEPE down"/>
+	<anim name="singRIGHT" anim="PEPE right"/>
+	<anim name="singLEFT" anim="PEPE left"/>
+	<anim name="singUP" anim="PEPE up"/>
+</character>

@@ -1,0 +1,8 @@
+<!DOCTYPE codename-engine-character>
+<character sprite="GUMBALLGUILT" scale="0.85" camx="-400" camy="-250">
+	<anim name="idle" anim="GUMBALLGUILT idle" x="304" y="241"/>
+	<anim name="singDOWN" anim="GUMBALLGUILT down" x="302" y="239"/>
+	<anim name="singRIGHT" anim="GUMBALLGUILT right" x="302" y="241"/>
+	<anim name="singLEFT" anim="GUMBALLGUILT left" x="312" y="241"/>
+	<anim name="singUP" anim="GUMBALLGUILT up" x="317" y="240"/>
+</character>

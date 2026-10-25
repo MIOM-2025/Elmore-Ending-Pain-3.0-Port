@@ -1,0 +1,19 @@
+{
+    "params": [
+        {
+            "name": "Name Video(String)",
+            "type": "String",
+            "defaultValue": ""
+        },
+        {
+            "name": "Callback function name",
+            "type":"String",
+            "defaultValue": ""
+        },
+        {
+            "name": "Call Value function",
+            "type": "String",
+            "defaultValue": ""
+        }
+    ]
+}

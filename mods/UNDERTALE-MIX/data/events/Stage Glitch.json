@@ -1,9 +1,0 @@
-{ 
-	"params": [
-		{
-			"name": "Stop",
-			"type": "Bool",
-			"defaultValue": false
-		}
-	] 
-}

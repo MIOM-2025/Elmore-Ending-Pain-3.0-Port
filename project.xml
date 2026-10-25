@@ -2,20 +2,20 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 	<app
-		title="UNDERTALE MIX" main="funkin.backend.system.Main"
-		file="UNDERTALE-MIX" packageName="com.undertalemix.miomport"
-		package="com.undertalemix.miomport"
-		version="1.0.1" company="ChezzarCat" />
+		title="Elmore: Ending Pain 3.0 Port" main="funkin.backend.system.Main"
+		file="Elmore_Ending_Pain" packageName="com.elmoreendingpain.port"
+		package="com.elmoreendingpain.port"
+		version="3.0.0" company="MIOM" />
 
 	<define name="DUSTIN_CUSTOM_BUILD"/>
 
 	<!--
 		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
 	-->
-	<haxedef name="SAVE_PATH" value="ChezzarCat/"/>
+	<haxedef name="SAVE_PATH" value="MIOM/"/>
 	<haxedef name="SAVE_NAME" value="save-default"/>
 
-	<haxedef name="SAVE_OPTIONS_PATH" value="ChezzarCat/"/>
+	<haxedef name="SAVE_OPTIONS_PATH" value="MIOM/"/>
 	<haxedef name="SAVE_OPTIONS_NAME" value="options"/>
 
 	<!--Switch Export with Unique ApplicationID and Icon-->

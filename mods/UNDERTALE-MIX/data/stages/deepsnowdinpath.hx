@@ -1,5 +1,0 @@
-function postCreate() {
-}
-
-function postUpdate() {
-}

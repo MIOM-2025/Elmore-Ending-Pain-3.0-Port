@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="PEPEBLACK.png">
+<SubTexture name="PEPEBLACK idle0000" x="1630" y="0" width="574" height="642" frameX="-111" frameY="-282" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0001" x="1630" y="0" width="574" height="642" frameX="-111" frameY="-282" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0002" x="1630" y="0" width="574" height="642" frameX="-111" frameY="-282" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0003" x="546" y="1377" width="572" height="632" frameX="-102" frameY="-291" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0004" x="546" y="1377" width="572" height="632" frameX="-102" frameY="-291" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0005" x="546" y="1377" width="572" height="632" frameX="-102" frameY="-291" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0006" x="560" y="720" width="565" height="645" frameX="-108" frameY="-278" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0007" x="560" y="720" width="565" height="645" frameX="-108" frameY="-278" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0008" x="0" y="720" width="560" height="657" frameX="-115" frameY="-267" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0009" x="0" y="720" width="560" height="657" frameX="-115" frameY="-267" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0010" x="1070" y="0" width="560" height="658" frameX="-118" frameY="-266" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0011" x="1070" y="0" width="560" height="658" frameX="-118" frameY="-266" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0012" x="1070" y="0" width="560" height="658" frameX="-118" frameY="-266" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0013" x="1070" y="0" width="560" height="658" frameX="-118" frameY="-266" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0014" x="1070" y="0" width="560" height="658" frameX="-118" frameY="-266" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK idle0015" x="1070" y="0" width="560" height="658" frameX="-118" frameY="-266" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK right0000" x="2204" y="0" width="587" height="622" frameX="-320" frameY="-302" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK right0001" x="2204" y="0" width="587" height="622" frameX="-320" frameY="-302" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK right0002" x="2204" y="0" width="587" height="622" frameX="-320" frameY="-302" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK right0003" x="1118" y="1377" width="585" height="626" frameX="-305" frameY="-298" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK right0004" x="1118" y="1377" width="585" height="626" frameX="-305" frameY="-298" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK right0005" x="1118" y="1377" width="585" height="626" frameX="-305" frameY="-298" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK left0000" x="1630" y="642" width="560" height="637" frameX="-42" frameY="-287" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK left0001" x="1630" y="642" width="560" height="637" frameX="-42" frameY="-287" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK left0002" x="1630" y="642" width="560" height="637" frameX="-42" frameY="-287" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK left0003" x="0" y="1377" width="546" height="636" frameX="-64" frameY="-287" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK left0004" x="0" y="1377" width="546" height="636" frameX="-64" frameY="-287" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK left0005" x="0" y="1377" width="546" height="636" frameX="-64" frameY="-287" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK down0000" x="2204" y="1126" width="535" height="493" frameX="-79" frameY="-430" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK down0001" x="2204" y="1126" width="535" height="493" frameX="-79" frameY="-430" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK down0002" x="2204" y="1126" width="535" height="493" frameX="-79" frameY="-430" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK down0003" x="2204" y="622" width="527" height="504" frameX="-94" frameY="-419" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK down0004" x="2204" y="622" width="527" height="504" frameX="-94" frameY="-419" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK down0005" x="2204" y="622" width="527" height="504" frameX="-94" frameY="-419" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK up0000" x="0" y="0" width="522" height="720" frameX="-239" frameY="-204" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK up0001" x="0" y="0" width="522" height="720" frameX="-239" frameY="-204" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK up0002" x="0" y="0" width="522" height="720" frameX="-239" frameY="-204" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK up0003" x="522" y="0" width="548" height="690" frameX="-244" frameY="-233" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK up0004" x="522" y="0" width="548" height="690" frameX="-244" frameY="-233" frameWidth="988" frameHeight="1042" />
+<SubTexture name="PEPEBLACK up0005" x="522" y="0" width="548" height="690" frameX="-244" frameY="-233" frameWidth="988" frameHeight="1042" />
+</TextureAtlas>

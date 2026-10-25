@@ -1,0 +1,8 @@
+<!DOCTYPE codename-engine-character>
+<character sprite="GUMBALLBLACK" scale="0.85" camx="-430" camy="50" icon="gumball_black">
+	<anim name="idle" anim="GUMBALLBLACK idle" x="249" y="101"/>
+	<anim name="singDOWN" anim="GUMBALLBLACK down" x="249.06" y="108.41"/>
+	<anim name="singRIGHT" anim="GUMBALLBLACK right" x="247.88" y="104.53"/>
+	<anim name="singLEFT" anim="GUMBALLBLACK left" x="262.59" y="108.06"/>
+	<anim name="singUP" anim="GUMBALLBLACK up" x="258.18" y="104.71"/>
+</character>

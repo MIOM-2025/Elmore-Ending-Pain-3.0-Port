@@ -1,0 +1,8 @@
+<!DOCTYPE codename-engine-stage>
+<stage folder="stages/school/" name="Elmore_School" zoom="0.85">
+	<sprite x="-351" sprite="school" y="-114" type="none" scale="1.5" name="bg"/>
+	<girlfriend x="-1" scroll="1" y="287"/>
+	<dad x="54" y="270"/>
+	<boyfriend camxoffset="-150" x="794" camyoffset="-80" y="226"/>
+	<sprite x="-317" scroll="1.2" sprite="OGBACKGROUNDCHAIRS" y="116" type="none" alpha="0.4" scale="1.4" name="sillas"/>
+</stage>

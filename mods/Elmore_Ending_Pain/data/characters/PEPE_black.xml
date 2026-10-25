@@ -1,0 +1,8 @@
+<!DOCTYPE codename-engine-character>
+<character sprite="PEPEBLACK" scale="0.8" flipX="true" camx="170" camy="85" isPlayer="true" icon="PEPE_black">
+	<anim name="idle" anim="PEPEBLACK idle" y="132"/>
+	<anim name="singDOWN" anim="PEPEBLACK down" y="134.75"/>
+	<anim name="singRIGHT" anim="PEPEBLACK right" y="135"/>
+	<anim name="singLEFT" anim="PEPEBLACK left" y="133.75"/>
+	<anim name="singUP" anim="PEPEBLACK up" x="-2.5" y="134.25"/>
+</character>

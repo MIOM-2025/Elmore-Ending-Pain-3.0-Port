@@ -1,0 +1,4 @@
+<!DOCTYPE codename-engine-character>
+<character scale="0.75" isPlayer="true" icon="RITA">
+	<anim name="idle" anim="RITA idle" x="522.5" y="245.5" loop="true"/>
+</character>

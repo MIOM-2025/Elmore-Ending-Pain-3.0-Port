@@ -1,7 +1,7 @@
 name: Android Build
 on:
   push:
-    branches: ['master']
+    branches: ['main']
   workflow_dispatch:
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
       - name: Uploading artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Dustin' Android
+          name: Elmore-Ending-Pain-3.0-Port
           path: export/release/android/bin/app/build/outputs/apk/release/*.apk
       - name: Clearing already existing cache
         uses: actions/github-script@v6

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="RITA.png">
+<SubTexture name="RITA idle0000" x="0" y="0" width="534" height="1250" frameX="-168" frameY="-57" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0001" x="0" y="0" width="534" height="1250" frameX="-168" frameY="-57" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0002" x="0" y="0" width="534" height="1250" frameX="-168" frameY="-57" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0003" x="2173" y="0" width="543" height="1239" frameX="-165" frameY="-68" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0004" x="2173" y="0" width="543" height="1239" frameX="-165" frameY="-68" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0005" x="2173" y="0" width="543" height="1239" frameX="-165" frameY="-68" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0006" x="1078" y="0" width="549" height="1245" frameX="-160" frameY="-62" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0007" x="1078" y="0" width="549" height="1245" frameX="-160" frameY="-62" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0008" x="1627" y="0" width="546" height="1244" frameX="-161" frameY="-63" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0009" x="1627" y="0" width="546" height="1244" frameX="-161" frameY="-63" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0010" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0011" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0012" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0013" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0014" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0015" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0016" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0017" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0018" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+<SubTexture name="RITA idle0019" x="534" y="0" width="544" height="1247" frameX="-162" frameY="-60" frameWidth="901" frameHeight="1307" />
+</TextureAtlas>

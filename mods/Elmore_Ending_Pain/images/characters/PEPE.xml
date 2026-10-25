@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="PEPE.png">
+<SubTexture name="PEPE idle0000" x="553" y="1097" width="562" height="1019" frameX="-109" frameY="-159" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0001" x="553" y="1097" width="562" height="1019" frameX="-109" frameY="-159" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0002" x="553" y="1097" width="562" height="1019" frameX="-109" frameY="-159" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0003" x="2676" y="0" width="560" height="1010" frameX="-100" frameY="-168" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0004" x="2676" y="0" width="560" height="1010" frameX="-100" frameY="-168" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0005" x="2676" y="0" width="560" height="1010" frameX="-100" frameY="-168" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0006" x="0" y="1097" width="553" height="1023" frameX="-106" frameY="-155" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0007" x="0" y="1097" width="553" height="1023" frameX="-106" frameY="-155" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0008" x="1594" y="0" width="548" height="1034" frameX="-113" frameY="-144" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0009" x="1594" y="0" width="548" height="1034" frameX="-113" frameY="-144" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0010" x="1046" y="0" width="548" height="1035" frameX="-116" frameY="-143" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0011" x="1046" y="0" width="548" height="1035" frameX="-116" frameY="-143" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0012" x="1046" y="0" width="548" height="1035" frameX="-116" frameY="-143" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0013" x="1046" y="0" width="548" height="1035" frameX="-116" frameY="-143" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0014" x="1046" y="0" width="548" height="1035" frameX="-116" frameY="-143" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE idle0015" x="1046" y="0" width="548" height="1035" frameX="-116" frameY="-143" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE right0000" x="577" y="2120" width="580" height="999" frameX="-313" frameY="-179" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE right0001" x="577" y="2120" width="580" height="999" frameX="-313" frameY="-179" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE right0002" x="577" y="2120" width="580" height="999" frameX="-313" frameY="-179" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE right0003" x="0" y="2120" width="577" height="1003" frameX="-299" frameY="-175" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE right0004" x="0" y="2120" width="577" height="1003" frameX="-299" frameY="-175" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE right0005" x="0" y="2120" width="577" height="1003" frameX="-299" frameY="-175" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE left0000" x="1115" y="1097" width="552" height="1014" frameX="-40" frameY="-164" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE left0001" x="1115" y="1097" width="552" height="1014" frameX="-40" frameY="-164" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE left0002" x="1115" y="1097" width="552" height="1014" frameX="-40" frameY="-164" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE left0003" x="2142" y="0" width="534" height="1014" frameX="-62" frameY="-164" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE left0004" x="2142" y="0" width="534" height="1014" frameX="-62" frameY="-164" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE left0005" x="2142" y="0" width="534" height="1014" frameX="-62" frameY="-164" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE down0000" x="2142" y="1014" width="528" height="871" frameX="-75" frameY="-307" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE down0001" x="2142" y="1014" width="528" height="871" frameX="-75" frameY="-307" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE down0002" x="2142" y="1014" width="528" height="871" frameX="-75" frameY="-307" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE down0003" x="2676" y="1010" width="518" height="882" frameX="-92" frameY="-296" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE down0004" x="2676" y="1010" width="518" height="882" frameX="-92" frameY="-296" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE down0005" x="2676" y="1010" width="518" height="882" frameX="-92" frameY="-296" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE up0000" x="0" y="0" width="510" height="1097" frameX="-237" frameY="-81" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE up0001" x="0" y="0" width="510" height="1097" frameX="-237" frameY="-81" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE up0002" x="0" y="0" width="510" height="1097" frameX="-237" frameY="-81" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE up0003" x="510" y="0" width="536" height="1068" frameX="-242" frameY="-110" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE up0004" x="510" y="0" width="536" height="1068" frameX="-242" frameY="-110" frameWidth="969" frameHeight="1178" />
+<SubTexture name="PEPE up0005" x="510" y="0" width="536" height="1068" frameX="-242" frameY="-110" frameWidth="969" frameHeight="1178" />
+</TextureAtlas>

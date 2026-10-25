@@ -1,0 +1,3 @@
+<menu name= "EEP Options" desc="Mod options, there aren't many to be honest">
+ <checkbox id="EEPvfpsCounter" name="FPS Visible" />
+</menu>

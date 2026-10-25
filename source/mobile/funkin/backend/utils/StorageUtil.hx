@@ -111,8 +111,8 @@ class StorageUtil
 enum abstract StorageType(String) from String to String
 {
 	final forcedPath = '/storage/emulated/0/';
-	final packageNameLocal = 'com.undertalemix.miomport';
-	final fileLocal = 'UNDERTALE-MIX';
+	final packageNameLocal = 'com.elmoreendingpain.port';
+	final fileLocal = 'Elmore_Ending_Pain';
 
 	var EXTERNAL_DATA = "EXTERNAL_DATA";
 	var EXTERNAL_OBB = "EXTERNAL_OBB";
