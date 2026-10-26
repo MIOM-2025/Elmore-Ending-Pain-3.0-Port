@@ -3,9 +3,10 @@ importScript("data/scripts/HandlerPreloadVideos");
 function new() {
 	if(!FlxG.save.data.EEPvfpsCounter == null) FlxG.save.data.EEPvfpsCounter = true;
 	// One-time default for the optional alternate VHS filter: old shader stays default.
-	if (FlxG.save.data != null && Reflect.field(FlxG.save.data, "vhsNewVersion") == null) {
+	// Bump the version whenever the shader set changes so existing saves are reset once.
+	if (FlxG.save.data != null && Reflect.field(FlxG.save.data, "vhsNewVersion") != 2) {
 		Reflect.setField(FlxG.save.data, "vhsNew", false);
-		Reflect.setField(FlxG.save.data, "vhsNewVersion", 1);
+		Reflect.setField(FlxG.save.data, "vhsNewVersion", 2);
 		FlxG.save.flush();
 	}
 }

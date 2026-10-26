@@ -145,5 +145,19 @@ void main()
 	}
 
 	vec3 rgb = yiq2rgb(signal.xyz);
-	gl_FragColor = vec4(pow(rgb, vec3(NTSC_CRT_GAMMA / NTSC_MONITOR_GAMMA)), flixel_texture2D(bitmap, uv).a);
+	vec3 finalColor = pow(rgb, vec3(NTSC_CRT_GAMMA / NTSC_MONITOR_GAMMA));
+
+	// --- CRT horizontal scanlines ---
+	// A tiny phase warp keeps the line spacing from looking mechanically perfect.
+	float scanWarp = 0.035 * sin(fragCoord.y * 0.13);
+	float scan = 0.5 + 0.5 * cos(fragCoord.y * PI + scanWarp);
+	float scanMask = mix(0.88, 1.0, scan);
+	vec3 scanTint = mix(vec3(1.015, 0.985, 1.0), vec3(0.985, 1.0, 1.015), scan);
+	finalColor *= scanMask * scanTint;
+
+	// Very subtle per-line colour breathing; keeps the stripes alive without shimmering.
+	float lineVariation = 0.5 + 0.5 * sin(fragCoord.y * 0.37 + float(uFrame) * 0.05);
+	finalColor += (lineVariation - 0.5) * vec3(0.012, -0.006, 0.010);
+
+	gl_FragColor = vec4(finalColor, flixel_texture2D(bitmap, uv).a);
 }
