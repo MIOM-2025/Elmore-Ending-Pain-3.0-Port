@@ -2,6 +2,9 @@ package funkin.options.categories;
 
 import flixel.input.keyboard.FlxKey;
 import lime.system.System as LimeSystem;
+#if TOUCH_CONTROLS
+import mobile.funkin.backend.system.MobileControlSelectSubState;
+#end
 #if sys
 import sys.io.File;
 #end
@@ -28,6 +31,14 @@ class MobileOptions extends TreeMenuScreen
         super('optionsTree.mobile-name', 'optionsTree.mobile-name', 'MobileOptions.', ['LEFT_FULL', 'A_B']);
 
 		#if TOUCH_CONTROLS
+		// 第一个选项：直接打开虚拟按键布局选择器（原来设置界面按 C 键的入口）
+		add(new TextOption("虚拟按键布局", "点一下打开虚拟按键布局选择器，退出面板就回到这里", ' >', () -> {
+			var state = MusicBeatState.getState();
+			state.openSubState(new MobileControlSelectSubState());
+			state.persistentUpdate = false;
+			state.persistentDraw = true;
+		}));
+
 		//add(new ArrayOption(getNameID('extraHints'), getDescID('extraHints'), ['NONE', 'SINGLE', 'DOUBLE'], ["None", "Single", "Double"], 'extraHints'));
 		add(new NumOption(getNameID('hitboxAlpha'), getDescID('hitboxAlpha'), 0, 100, 5, "hitboxAlpha"));
 		add(new Checkbox(getNameID('oldPadTexture'), getDescID('oldPadTexture'), "oldPadTexture", () ->
@@ -73,7 +84,8 @@ class MobileOptions extends TreeMenuScreen
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
-		MusicBeatState.getState().touchPad.alpha = (Options.touchPadAlpha / 100);
+		var pad = MusicBeatState.getState().touchPad;
+		if (pad != null) pad.alpha = (Options.touchPadAlpha / 100);
     }
 	
 	override function close()

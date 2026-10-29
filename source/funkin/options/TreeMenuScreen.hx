@@ -73,6 +73,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 	var dragMoved:Bool = false;
 	var dragVel:Array<Float> = [];
 	var listInertia:FlxTimer = null;
+	var ownsTouchPad:Bool = false;
 	#end
 
 	public function new(name:String, desc:String, ?prefix:String, ?objects:Array<FlxSprite>, ?menuTPadModes:Array<String>) {
@@ -96,9 +97,11 @@ class TreeMenuScreen extends FlxSpriteGroup {
 			{
 				this.prevMenuTPadModes = [state.touchPad.curDPadMode, state.touchPad.curActionMode];
 				state.removeTouchPad();
-				state.addTouchPad(menuTPadModes[0], menuTPadModes[1]);
-				state.addTouchPadCamera();
 			}
+			else ownsTouchPad = true;
+
+			state.addTouchPad(menuTPadModes[0], menuTPadModes[1]);
+			state.addTouchPadCamera();
 		}
 		#end
 
@@ -226,7 +229,8 @@ class TreeMenuScreen extends FlxSpriteGroup {
 					itemH = members[curSelected].height;
 
 				// 往上拖 = 列表往上滚 = 选中项往后走
-				var raw:Float = dragStartSelected - dy / itemH;
+				// 灵敏度：默认 1 项 ≈ 0.55 个选项高度，滑起来更省力
+				var raw:Float = dragStartSelected - dy / (itemH * 0.55);
 				var target:Int = Std.int(FlxMath.bound(Math.round(raw), 0, length - 1));
 				if (target != curSelected) setSelected(target, false);
 			}
@@ -259,7 +263,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 				for (v in dragVel) avg += v;
 				if (dragVel.length > 0) avg /= dragVel.length;
 
-				if (Math.abs(avg) > 50) startListInertia(avg < 0 ? 1 : -1, Math.abs(avg));
+				if (Math.abs(avg) > 35) startListInertia(avg < 0 ? 1 : -1, Math.abs(avg));
 			}
 
 			dragVel = [];
@@ -269,7 +273,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 	/** 松手后按速度再滚 1~3 格，到头就停（不循环） */
 	function startListInertia(dir:Int, speed:Float):Void
 	{
-		var steps:Int = Std.int(FlxMath.bound(Math.floor(speed / 320), 1, 3));
+		var steps:Int = Std.int(FlxMath.bound(Math.floor(speed / 200), 1, 4));
 		if (listInertia != null) listInertia.cancel();
 		listInertia = new FlxTimer().start(0.06, function(t:FlxTimer) {
 			var next:Int = curSelected + dir;
@@ -321,6 +325,11 @@ class TreeMenuScreen extends FlxSpriteGroup {
 
 			state.addTouchPad(prevMenuTPadModes[0], prevMenuTPadModes[1]);
 			state.addTouchPadCamera();
+		}
+		else if (ownsTouchPad)
+		{
+			ownsTouchPad = false;
+			MusicBeatState.getState().removeTouchPad();
 		}
 		#end
 	}

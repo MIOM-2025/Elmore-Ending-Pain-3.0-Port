@@ -153,7 +153,9 @@ class MainState extends FlxState {
 
 		FlxG.game.soundTray.reloadText(true);
 
-		var startState:Class<FlxState> = Flags.DISABLE_WARNING_SCREEN ? TitleState : funkin.menus.WarningState;
+		// 警告界面里勾了“不再显示”就把开关写进存档，这里读存档，而不是只看编译开关
+		var hideWarningScreen:Bool = FlxG.save.data != null && FlxG.save.data.hideWarning == true;
+		var startState:Class<FlxState> = (Flags.DISABLE_WARNING_SCREEN || hideWarningScreen) ? TitleState : funkin.menus.WarningState;
 
 		if (Options.devMode && Options.allowConfigWarning) {
 			var lib:ModsFolderLibrary;

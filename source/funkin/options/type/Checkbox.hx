@@ -81,7 +81,11 @@ class Checkbox extends TextOption {
 		if (locked) return;
 
 		checked = !checked;
-		if (optionName != null) Reflect.setField(parent, optionName, checked);
+		if (optionName != null) {
+			Reflect.setField(parent, optionName, checked);
+			// 勾选项写进存档后立刻落盘，避免退出太快丢设置
+			if (parent == FlxG.save.data) FlxG.save.flush();
+		}
 
 		if (checked) CoolUtil.playMenuSFX(CHECKED);
 		else CoolUtil.playMenuSFX(UNCHECKED);

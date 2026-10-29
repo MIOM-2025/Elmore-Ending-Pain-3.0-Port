@@ -1,7 +1,21 @@
 importScript("data/scripts/fpsCounter");
 importScript("data/scripts/HandlerPreloadVideos");
 function new() {
-	if(!FlxG.save.data.EEPvfpsCounter == null) FlxG.save.data.EEPvfpsCounter = true;
+	// 默认值：两个和谐开、生命图标不和谐、VHS 两个效果开、新版滤镜关、显示警告、不显示 FPS
+	if (FlxG.save.data != null) {
+		var defVal = function(k:String, v:Dynamic) {
+			if (Reflect.field(FlxG.save.data, k) == null) Reflect.setField(FlxG.save.data, k, v);
+		}
+		defVal("censorVideo", true);
+		defVal("censorDeath", true);
+		defVal("censorHealth", false);
+		defVal("vhsEnabled", true);
+		defVal("vhsCurve", true);
+		defVal("vhsNew", false);
+		defVal("hideWarning", false);
+		defVal("EEPvfpsCounter", false);
+		FlxG.save.flush();
+	}
 	// One-time default for the optional alternate VHS filter: old shader stays default.
 	// Bump the version whenever the shader set changes so existing saves are reset once.
 	if (FlxG.save.data != null && Reflect.field(FlxG.save.data, "vhsNewVersion") != 2) {

@@ -173,7 +173,7 @@ function createTwoMainOptions() {
 
         var saveData = FlxG.save.data;
         var savedVal = saveData != null ? Reflect.field(saveData, keys[i]) : null;
-        var isChecked = (savedVal == true);
+        var isChecked = (savedVal == null) ? true : (savedVal == true);
         check.visible = isChecked;
         if (isChecked) check.scale.set(1, 1); else check.scale.set(0.01, 0.01);
 

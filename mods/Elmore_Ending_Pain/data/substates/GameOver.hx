@@ -138,33 +138,33 @@ function styleVcr(t:FlxText, size:Int) {
 }
 
 function createMenu() {
-    menuTitle = new FlxText(0, FlxG.height * 0.50, 0, "SELECT?", 34);
+    menuTitle = new FlxText(0, FlxG.height * 0.565, 0, "SELECT?", 46);
     menuTitle.scrollFactor.set(0, 0);
     menuTitle.cameras = [camOver];
     menuTitle.alpha = 0;
     add(menuTitle);
-    styleVcr(menuTitle, 34);
-    menuTitle.borderSize = 2;
+    styleVcr(menuTitle, 46);
+    menuTitle.borderSize = 3;
     menuTitle.updateHitbox();
     // 左对齐：等下面选项量好宽度后再统一设置
 
-    menuReplay = new FlxText(0, menuTitle.y + 44, 0, "REPLAY TAPE", 28);
+    menuReplay = new FlxText(0, menuTitle.y + 56, 0, "REPLAY TAPE", 36);
     menuReplay.scrollFactor.set(0, 0);
     menuReplay.cameras = [camOver];
     menuReplay.alpha = 0;
     add(menuReplay);
-    styleVcr(menuReplay, 28);
-    menuReplay.borderSize = 2;
+    styleVcr(menuReplay, 36);
+    menuReplay.borderSize = 3;
     menuReplay.updateHitbox();
     menuReplay.x = (FlxG.width - menuReplay.width) * 0.5;
 
-    menuExit = new FlxText(0, menuReplay.y + 34, 0, "EXIT", 28);
+    menuExit = new FlxText(0, menuReplay.y + 46, 0, "EXIT", 36);
     menuExit.scrollFactor.set(0, 0);
     menuExit.cameras = [camOver];
     menuExit.alpha = 0;
     add(menuExit);
-    styleVcr(menuExit, 28);
-    menuExit.borderSize = 2;
+    styleVcr(menuExit, 36);
+    menuExit.borderSize = 3;
     menuExit.updateHitbox();
     menuTitle.x = menuReplay.x;
     menuExit.x = menuReplay.x;

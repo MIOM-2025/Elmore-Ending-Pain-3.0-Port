@@ -1,5 +1,7 @@
 package funkin.menus.credits;
 
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
 import flixel.util.FlxColor;
 import funkin.backend.assets.AssetSource;
 import funkin.backend.system.github.GitHubContributor.CreditsGitHubContributor;
@@ -36,11 +38,29 @@ class CreditsMain extends TreeMenu {
 			}
 		}
 
+		// 移植者
+		first.add(new TextOption('MIOM', 'Mobile port by MIOM', ''));
+
 		first.add(new TextOption('Codename Engine', 'credits.selectCodename', ' >', () -> addMenu(new CreditsCodename())));
 		first.add(new TextOption('Friday Night Funkin\'', 'credits.selectBase', ' >', () -> CoolUtil.openURL(Flags.URL_FNF_ITCH)));
 		
 		addTouchPad("UP_DOWN", "A_B");
 		addTouchPadCamera();
+
+		// 移植者署名：黑字 + 白描边，右下角常驻
+		var porterName = new FlxText(28, FlxG.height - 130, 0, "MIOM", 72);
+		porterName.setFormat(null, 72, 0xFF000000, "left", FlxTextBorderStyle.OUTLINE, 0xFFFFFFFF);
+		porterName.borderSize = 4;
+		porterName.scrollFactor.set();
+		porterName.antialiasing = true;
+		add(porterName);
+
+		var porterRole = new FlxText(30, porterName.y + porterName.height + 4, 0, "MOBILE PORT", 22);
+		porterRole.setFormat(null, 22, 0xFF000000, "left", FlxTextBorderStyle.OUTLINE, 0xFFFFFFFF);
+		porterRole.borderSize = 3;
+		porterRole.scrollFactor.set();
+		porterRole.antialiasing = true;
+		add(porterRole);
 	}
 
 	public function updateBG() {

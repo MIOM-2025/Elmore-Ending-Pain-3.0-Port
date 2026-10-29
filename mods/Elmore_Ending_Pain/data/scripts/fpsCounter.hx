@@ -20,14 +20,14 @@ function new() {
 	boxSolidSprite.graphics.drawRect(0, 0, 100, 100);
 	boxSolidSprite.graphics.endFill();
 	boxSolidSprite.alpha = 0.5;
-	boxSolidSprite.visible = !FlxG.save.data.EEPvfpsCounter;
+	boxSolidSprite.visible = (FlxG.save.data != null && FlxG.save.data.EEPvfpsCounter == true);
 	Main.instance.addChild(boxSolidSprite);
 
     fpsText = new TextField();
 	fpsText.defaultTextFormat = new TextFormat(Paths.getFontName(Paths.font('fpsCounter.ttf')), 24, 0xffffff);
 	fpsText.height = 40;
 	fpsText.selectable = false;
-	fpsText.visible = !FlxG.save.data.EEPvfpsCounter;
+	fpsText.visible = (FlxG.save.data != null && FlxG.save.data.EEPvfpsCounter == true);
 	Main.instance.addChild(fpsText);
 
 	updatePosition();
@@ -59,6 +59,11 @@ function preStateSwitch() {
 
 function update(elapsed) {
 	updatePosition();
+
+	// 设置里改了开关立刻生效（默认不显示）
+	var showNow:Bool = (FlxG.save.data != null && FlxG.save.data.EEPvfpsCounter == true);
+	fpsText.visible = showNow;
+	boxSolidSprite.visible = showNow;
 
     fpsText.text = "FPS: " + Framerate.fpsCounter.fpsNum.text + " ~ " + "MEM: " + Framerate.memoryCounter.memoryText.text + Framerate.memoryCounter.memoryPeakText.text;
     fpsText.setTextFormat(fpsText.defaultTextFormat);
