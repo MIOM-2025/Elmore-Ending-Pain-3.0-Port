@@ -1,6 +1,7 @@
 package funkin.menus.credits;
 
 import flixel.text.FlxText;
+import funkin.backend.FunkinText;
 import flixel.util.FlxColor;
 import funkin.backend.assets.AssetSource;
 import funkin.backend.system.github.GitHubContributor.CreditsGitHubContributor;
