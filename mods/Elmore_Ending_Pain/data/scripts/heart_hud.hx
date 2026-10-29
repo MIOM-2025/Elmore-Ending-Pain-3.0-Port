@@ -18,6 +18,8 @@ var hpBaseX:Float = 275;
 var hpYOffset:Float = 50;
 
 var hpBaseScale:Float = 0.55;
+var life2Scale:Float = 0.50;
+var life2YOffset:Float = 36;
 var hpPeakAmplitude:Float = 0.6;
 var hpDecayPerIndex:Float = 0.82;
 var hpWaveDelay:Float = 0.04;   // 恢复原来的传递速度
@@ -42,7 +44,13 @@ function postCreate() {
     if (censorHealth && !Assets.exists(Paths.image(heartAsset))) heartAsset = "hud/heart";
     usingLife2 = (heartAsset == "hud/life2");
     heart = new FlxSprite(88, 600 + (Options.downscroll) ? 75 : 630).loadGraphic(Paths.image(heartAsset));
-    heart.scale.set(0.55, 0.55);
+    if (usingLife2) {
+        // life2 is shorter than the original heart: nudge it down and slightly smaller.
+        heart.y += life2YOffset;
+        heart.scale.set(life2Scale, life2Scale);
+    } else {
+        heart.scale.set(0.55, 0.55);
+    }
     grpHudUIAssets.add(heart);
     grpHudUIAssets.camera = camHUD;
 
