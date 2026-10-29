@@ -7,6 +7,9 @@ import flixel.util.FlxSignal;
 import funkin.backend.FunkinText;
 import funkin.backend.system.framerate.Framerate;
 import funkin.editors.ui.UIState;
+#if TOUCH_CONTROLS
+import mobile.funkin.backend.utils.OptionTouch;
+#end
 
 interface ITreeOption {
 	var desc:String;
@@ -75,6 +78,10 @@ class TreeMenu extends UIState {
 		add(bgLabel);
 		add(titleLabel);
 		add(descLabel);
+
+		#if TOUCH_CONTROLS
+		createBackButton();
+		#end
 
 		FlxG.camera.scroll.x = -FlxG.width;
 		menuChanged();
@@ -234,6 +241,10 @@ class TreeMenu extends UIState {
 
 		// in case path gets so long it goes offscreen, ALTHOUGH this nevers happens anyway since we have set a expected width to the label.
 		//titleLabel.x = lerp(titleLabel.x, Math.max(0, FlxG.width - 4 - titleLabel.width), 0.125);
+
+		#if TOUCH_CONTROLS
+		updateBackButton();
+		#end
 	}
 
 	override function destroy() {
@@ -264,6 +275,49 @@ class TreeMenu extends UIState {
 		for (menu in previousMenus) menu.destroy();
 		previousMenus.resize(0);
 	}
+
+	#if TOUCH_CONTROLS
+	public var backButton:FlxSprite;
+	var backHeld:Bool = false;
+
+	function createBackButton():Void
+	{
+		if (backButton != null) return;
+
+		backButton = new FlxSprite(0, 0);
+		backButton.frames = Paths.getFrames('mobile/backButton');
+		backButton.animation.addByIndices('idle', 'back', [0], "", 24, false);
+		backButton.animation.addByPrefix('press', 'back', 24, false);
+		backButton.animation.play('idle');
+		backButton.scale.set(0.45, 0.45);
+		backButton.updateHitbox();
+		backButton.scrollFactor.set(0, 0);
+		backButton.antialiasing = true;
+		// 放右上角，避开底部 TouchPad 的 A/B/C，不会误触
+		backButton.x = FlxG.width - backButton.width - 8;
+		backButton.y = 6;
+		add(backButton);
+	}
+
+	function updateBackButton():Void
+	{
+		if (backButton == null || !backButton.exists) return;
+
+		if (!backHeld && OptionTouch.pressingOn(backButton))
+		{
+			backHeld = true;
+			backButton.animation.play('press');
+		}
+
+		var fire:Bool = OptionTouch.releasedOn(backButton);
+		if (backHeld && (fire || !OptionTouch.anyPressed))
+		{
+			backHeld = false;
+			backButton.animation.play('idle');
+			if (fire && treeLength > 0) tree.last().close();
+		}
+	}
+	#end
 
 	public function exit() {
 		if (exitCallback != null) return exitCallback(this);

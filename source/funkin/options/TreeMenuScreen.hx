@@ -8,6 +8,9 @@ import funkin.options.TreeMenu.ITreeOption;
 import funkin.options.TreeMenu.ITreeFloatOption;
 import funkin.options.type.OptionType;
 import funkin.options.type.Separator;
+#if TOUCH_CONTROLS
+import mobile.funkin.backend.utils.OptionTouch;
+#end
 
 class TreeMenuScreen extends FlxSpriteGroup {
 	public var persistentUpdate:Bool = false;
@@ -68,6 +71,10 @@ class TreeMenuScreen extends FlxSpriteGroup {
 		rawDesc = desc;
 
 		turboBasics = [leftTurboControl, rightTurboControl, upTurboControl, downTurboControl];
+
+		#if TOUCH_CONTROLS
+		OptionTouch.init();
+		#end
 		
 		#if TOUCH_CONTROLS
 		if (menuTPadModes != null)
@@ -108,6 +115,11 @@ class TreeMenuScreen extends FlxSpriteGroup {
 			for (basic in turboBasics) basic.update(elapsed);
 
 			var change = (upTurboControl.activated ? -1 : 0) + (downTurboControl.activated ? 1 : 0) - FlxG.mouse.wheel, mouseControl = false;
+
+			#if TOUCH_CONTROLS
+			// 上下滑 = 移动光标（只影响设置界面，TouchPad 原样保留）
+			change += (OptionTouch.swipeUp ? -1 : 0) + (OptionTouch.swipeDown ? 1 : 0);
+			#end
 			/*if (FlxG.mouse.justPressed && !funkin.backend.system.Controls.instance.touchC) {
 				for (i in CoolUtil.maxInt(curSelected - 3, 0)...CoolUtil.minInt(curSelected + 4, length))
 					if (i != curSelected && members[i] != null && mouseOverlaps(members[i])) {
@@ -119,14 +131,27 @@ class TreeMenuScreen extends FlxSpriteGroup {
 			changeSelection(change);
 
 			if (length > 0 && curOption != null) {
-				if (controls.ACCEPT) curOption.select();
+				var accepted:Bool = controls.ACCEPT;
+				#if TOUCH_CONTROLS
+				// 轻点当前项 = 确认/切换
+				if (!accepted && OptionTouch.tapped && members[curSelected] != null)
+					accepted = OptionTouch.tappedOn(cast members[curSelected]);
+				#end
+				if (accepted) curOption.select();
+
+				var goLeft:Bool = controls.LEFT, goRight:Bool = controls.RIGHT;
+				#if TOUCH_CONTROLS
+				// 左右滑 = 改值 / 切换（只影响设置界面）
+				goLeft = goLeft || OptionTouch.swipeLeft;
+				goRight = goRight || OptionTouch.swipeRight;
+				#end
 				if (curFloatOption != null) {
-					if (controls.LEFT) curFloatOption.changeValue(-elapsed);
-					if (controls.RIGHT) curFloatOption.changeValue(elapsed);
+					if (goLeft) curFloatOption.changeValue(-(controls.LEFT ? elapsed : 1));
+					if (goRight) curFloatOption.changeValue(controls.RIGHT ? elapsed : 1);
 				}
 				else {
-					if (leftTurboControl.activated) curOption.changeSelection(-1);
-					if (rightTurboControl.activated) curOption.changeSelection(1);
+					if (leftTurboControl.activated || goLeft) curOption.changeSelection(-1);
+					if (rightTurboControl.activated || goRight) curOption.changeSelection(1);
 				}
 			}
 
