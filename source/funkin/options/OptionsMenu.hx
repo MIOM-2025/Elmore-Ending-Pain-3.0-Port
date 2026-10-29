@@ -113,27 +113,27 @@ class OptionsMenu extends TreeMenu {
 			}
 		}
 		
-		#if TOUCH_CONTROLS
-		addTouchPad('UP_DOWN', 'A_B_C');
-		addTouchPadCamera();
-		#end
+		// 设置界面不再挂 TouchPad：导航全部走 TreeMenuScreen 的
+		// 轻点 / 左右滑 / 上下滑，返回走右上角返回键。
+		// （其它状态/小游戏的 TouchPad 不受影响）
 	}
 
 	public override function update(elapsed:Float) {
 		super.update(elapsed);
 		
-		if (MusicBeatState.getState().touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.touchC)
+		var tp = MusicBeatState.getState().touchPad;
+		if ((tp != null && tp.buttonC.justPressed) || FlxG.keys.justPressed.CONTROL && controls.touchC)
 		{
 			openSubState(new MobileControlSelectSubState());
 			persistentUpdate = false;
 			persistentDraw = true;
-			touchPad.visible = false;
+			if (tp != null) tp.visible = false;
 		}
 	}
 	
 	public override function closeSubState() 
 	{
-		touchPad.visible = true;
+		if (touchPad != null) touchPad.visible = true;
 		super.closeSubState();
 	}
 	

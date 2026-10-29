@@ -80,11 +80,14 @@ class TreeMenuScreen extends FlxSpriteGroup {
 		if (menuTPadModes != null)
 		{
 			final state = MusicBeatState.getState();
-			this.prevMenuTPadModes = [state.touchPad.curDPadMode, state.touchPad.curActionMode];
-			state.removeTouchPad();
-
-			state.addTouchPad(menuTPadModes[0], menuTPadModes[1]);
-			state.addTouchPadCamera();
+			// 设置界面本身不再挂 TouchPad，所以这里可能没有 pad 可换
+			if (state.touchPad != null)
+			{
+				this.prevMenuTPadModes = [state.touchPad.curDPadMode, state.touchPad.curActionMode];
+				state.removeTouchPad();
+				state.addTouchPad(menuTPadModes[0], menuTPadModes[1]);
+				state.addTouchPadCamera();
+			}
 		}
 		#end
 
