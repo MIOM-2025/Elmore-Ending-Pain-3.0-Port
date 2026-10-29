@@ -47,15 +47,19 @@ class CreditsMain extends TreeMenu {
 		addTouchPadCamera();
 
 		// 移植者署名：黑字 + 白描边，右下角常驻
-		var porterName = new FlxText(28, FlxG.height - 130, 0, "MIOM", 72);
-		porterName.setFormat(null, 72, 0xFF000000, "left", OUTLINE, 0xFFFFFFFF);
+		var porterName = new FunkinText(28, FlxG.height - 130, 0, "MIOM", 72, false);
+		porterName.color = 0xFF000000;
+		porterName.borderStyle = OUTLINE;
+		porterName.borderColor = 0xFFFFFFFF;
 		porterName.borderSize = 4;
 		porterName.scrollFactor.set();
 		porterName.antialiasing = true;
 		add(porterName);
 
-		var porterRole = new FlxText(30, porterName.y + porterName.height + 4, 0, "MOBILE PORT", 22);
-		porterRole.setFormat(null, 22, 0xFF000000, "left", OUTLINE, 0xFFFFFFFF);
+		var porterRole = new FunkinText(30, porterName.y + porterName.height + 4, 0, "MOBILE PORT", 22, false);
+		porterRole.color = 0xFF000000;
+		porterRole.borderStyle = OUTLINE;
+		porterRole.borderColor = 0xFFFFFFFF;
 		porterRole.borderSize = 3;
 		porterRole.scrollFactor.set();
 		porterRole.antialiasing = true;
