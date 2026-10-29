@@ -19,7 +19,7 @@ var hpYOffset:Float = 50;
 
 var hpBaseScale:Float = 0.55;
 var life2Scale:Float = 0.50;
-var life2YOffset:Float = 36;
+var life2YOffset:Float = 16;
 var hpPeakAmplitude:Float = 0.6;
 var hpDecayPerIndex:Float = 0.82;
 var hpWaveDelay:Float = 0.04;   // 恢复原来的传递速度
@@ -100,8 +100,8 @@ function syncHpPositions() {
 
 function beatHit() {
     if (curBeat % 2 == 0) {
-        // The alternate VHS heart stays static; only the health bars pulse.
-        if (!usingLife2) heart.scale.set(0.63, 0.63);
+        var baseScale:Float = usingLife2 ? life2Scale : 0.55;
+        heart.scale.set(baseScale * 1.15, baseScale * 1.15);
         triggerPulseWave();
     }
 }
@@ -145,8 +145,8 @@ function onPlayerMiss(event) {
 }
 
 function postUpdate() {
-    if (!usingLife2)
-        heart.scale.set(lerp(heart.scale.x, 0.55, 0.2), lerp(heart.scale.y, 0.55, 0.2));
+    var baseScale:Float = usingLife2 ? life2Scale : 0.55;
+    heart.scale.set(lerp(heart.scale.x, baseScale, 0.2), lerp(heart.scale.y, baseScale, 0.2));
 
     syncHpPositions();
 
