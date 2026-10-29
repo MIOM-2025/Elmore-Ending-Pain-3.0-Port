@@ -27,6 +27,10 @@ class OptionTouch
 
 	static var _tapped:Bool = false;
 	static var _released:Bool = false;
+	static var _justPressed:Bool = false;
+	static var _holding:Bool = false;
+	static var _pointerX:Float = 0;
+	static var _pointerY:Float = 0;
 	static var _swipeX:Int = 0;
 	static var _swipeY:Int = 0;
 
@@ -86,19 +90,43 @@ class OptionTouch
 
 		_tapped = false;
 		_released = false;
+		_justPressed = false;
+		_holding = false;
 		_swipeX = 0;
 		_swipeY = 0;
 
 		for (touch in FlxG.touches.list)
 		{
 			if (touch == null) continue;
-			if (touch.justPressed) begin(touch.screenX, touch.screenY);
+			if (touch.justPressed)
+			{
+				begin(touch.screenX, touch.screenY);
+				_justPressed = true;
+			}
 			else if (touch.justReleased && tracking) finish(touch.screenX, touch.screenY);
+
+			if (touch.pressed)
+			{
+				_holding = true;
+				_pointerX = touch.screenX;
+				_pointerY = touch.screenY;
+			}
 		}
 
 		// 桌面 / 没有触摸事件时用鼠标兜底
-		if (FlxG.mouse.justPressed) begin(FlxG.mouse.screenX, FlxG.mouse.screenY);
+		if (FlxG.mouse.justPressed)
+		{
+			begin(FlxG.mouse.screenX, FlxG.mouse.screenY);
+			_justPressed = true;
+		}
 		else if (FlxG.mouse.justReleased && tracking) finish(FlxG.mouse.screenX, FlxG.mouse.screenY);
+
+		if (FlxG.mouse.pressed)
+		{
+			_holding = true;
+			_pointerX = FlxG.mouse.screenX;
+			_pointerY = FlxG.mouse.screenY;
+		}
 	}
 
 	// ===== 查询 =====
@@ -116,6 +144,25 @@ class OptionTouch
 
 	public static var swipeDown(get, never):Bool;
 	static function get_swipeDown():Bool { refresh(); return _swipeY > 0; }
+
+	/** 这一帧刚按下 */
+	public static var justPressedNow(get, never):Bool;
+	static function get_justPressedNow():Bool { refresh(); return _justPressed; }
+
+	/** 手指/鼠标还按着 */
+	public static var holding(get, never):Bool;
+	static function get_holding():Bool { refresh(); return _holding; }
+
+	/** 这一帧刚抬起 */
+	public static var releasedNow(get, never):Bool;
+	static function get_releasedNow():Bool { refresh(); return _released; }
+
+	/** 当前按下点的屏幕坐标 */
+	public static var pointerX(get, never):Float;
+	static function get_pointerX():Float { refresh(); return _pointerX; }
+
+	public static var pointerY(get, never):Float;
+	static function get_pointerY():Float { refresh(); return _pointerY; }
 
 	public static var anyPressed(get, never):Bool;
 	static function get_anyPressed():Bool
