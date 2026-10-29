@@ -147,7 +147,7 @@ class OptionTouch
 
 	static function hit(sprite:FlxSprite, x:Float, y:Float, ?camera:FlxCamera):Bool
 	{
-		var cam = camera != null ? camera : sprite.getDefaultCamera();
+		var cam:FlxCamera = camera != null ? camera : FlxG.camera;
 		var pos = sprite.getScreenPosition(null, cam);
 		var ok = x >= pos.x && x <= pos.x + sprite.width && y >= pos.y && y <= pos.y + sprite.height;
 		pos.put();
