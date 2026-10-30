@@ -18,6 +18,8 @@ var bg_4:FlxSprite;
 var logo:FlxSprite;
 var tadTxt:FunkinText;
 var creditsTxt:FunkinText;
+var creditsTxt2:FunkinText;
+var miomTxt:FunkinText;
 var hxandCNE:FlxSprite;
 public var vhsShader = new CustomShader("vhs");
 public var optionsArray:Array<String> = [
@@ -102,9 +104,7 @@ function create()
     tadTxt.antialiasing = Options.antialiasing;
     add(tadTxt);
 
-    creditsTxt = new FunkinText(
-        500, 50, 0,
-        "girl director:\n" +
+    var creditsHead:String = "girl director:\n" +
         "Lily - art, animation, conceptual art\n\n" +
         "Composer:\n" +
         "Cinder - Guilt composer\n\n" +
@@ -117,20 +117,40 @@ function create()
         "Solaria - art\n\n" +
         "Programming:\n" +
         "Zoulin! - code\n" +
-        "bennydoodles.fla - Guilt chart\n" +
-        "MIOM - mobile port\n\n" +
-        "Special thanks:\n" +
+        "bennydoodles.fla - Guilt chart";
+
+    var creditsTail:String = "Special thanks:\n" +
         "tjghostly - menu theme\n" +
         "Strawberrycode - small coding help\n" +
-        "'The grieving' belongs to GlobaLuna/xxZeroZonexx",
-        32
-    );
+        "'The grieving' belongs to GlobaLuna/xxZeroZonexx";
+
+    creditsTxt = new FunkinText(500, 50, 0, creditsHead, 32);
     creditsTxt.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.WHITE);
     creditsTxt.alignment = "center";
     creditsTxt.camera = camOptions;
     creditsTxt.alpha = 0;
     creditsTxt.antialiasing = Options.antialiasing;
     add(creditsTxt);
+
+    // 移植者那一条：黑字 + 白描边
+    miomTxt = new FunkinText(500, creditsTxt.y + creditsTxt.height + 10, 0, "MIOM - mobile port", 32, false);
+    miomTxt.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.BLACK);
+    miomTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
+    miomTxt.borderColor = FlxColor.WHITE;
+    miomTxt.borderSize = 3;
+    miomTxt.alignment = "center";
+    miomTxt.camera = camOptions;
+    miomTxt.alpha = 0;
+    miomTxt.antialiasing = Options.antialiasing;
+    add(miomTxt);
+
+    creditsTxt2 = new FunkinText(500, miomTxt.y + miomTxt.height + 14, 0, creditsTail, 32);
+    creditsTxt2.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.WHITE);
+    creditsTxt2.alignment = "center";
+    creditsTxt2.camera = camOptions;
+    creditsTxt2.alpha = 0;
+    creditsTxt2.antialiasing = Options.antialiasing;
+    add(creditsTxt2);
 
     hxandCNE = new FlxSprite(0, -370).loadGraphic(Paths.image("menu/CNE AND HX"));
     hxandCNE.scale.set(0.5, 0.5);
@@ -289,6 +309,8 @@ function showCreditsEEP()
     FlxTween.cancelTweensOf(creditsTxt);
     FlxTween.tween(logo, {alpha: 0}, 1);
     FlxTween.tween(creditsTxt, {alpha: 1}, 1);
+    FlxTween.tween(creditsTxt2, {alpha: 1}, 1);
+    FlxTween.tween(miomTxt, {alpha: 1}, 1);
 }
 
 function fadeCreditsEEP()
@@ -298,6 +320,8 @@ function fadeCreditsEEP()
     FlxTween.cancelTweensOf(creditsTxt);
     FlxTween.tween(logo,{alpha: 1},1);
     FlxTween.tween(creditsTxt,{alpha: 0},1);
+    FlxTween.tween(creditsTxt2,{alpha: 0},1);
+    FlxTween.tween(miomTxt,{alpha: 0},1);
 }
 
 function beatHit()
