@@ -28,11 +28,11 @@ class MobileOptions extends TreeMenuScreen
 		}
 		#end
         
-        super('optionsTree.mobile-name', 'optionsTree.mobile-name', 'MobileOptions.', ['LEFT_FULL', 'A_B']);
+        super('optionsTree.mobile-name', 'optionsTree.mobile-name', 'MobileOptions.');
 
 		#if TOUCH_CONTROLS
 		// 第一个选项：直接打开虚拟按键布局选择器（原来设置界面按 C 键的入口）
-		add(new TextOption("虚拟按键布局", "点一下打开虚拟按键布局选择器，退出面板就回到这里", ' >', () -> {
+		add(new TextOption("PAD LAYOUT", "Open the touch pad layout selector", ' >', () -> {
 			var state = MusicBeatState.getState();
 			state.openSubState(new MobileControlSelectSubState());
 			state.persistentUpdate = false;
