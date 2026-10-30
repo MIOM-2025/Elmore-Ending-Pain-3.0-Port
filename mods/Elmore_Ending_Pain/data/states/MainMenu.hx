@@ -18,6 +18,7 @@ var bg_4:FlxSprite;
 var logo:FlxSprite;
 var tadTxt:FunkinText;
 var creditsTxt:FunkinText;
+var porterTxt:FunkinText;
 var hxandCNE:FlxSprite;
 public var vhsShader = new CustomShader("vhs");
 public var optionsArray:Array<String> = [
@@ -104,6 +105,8 @@ function create()
 
     creditsTxt = new FunkinText(
         500, 50, 0,
+        "Port creator:\n" +
+        "MIOM - mobile port\n\n" +
         "girl director:\n" +
         "Lily - art, animation, conceptual art\n\n" +
         "Composer:\n" +
@@ -130,6 +133,17 @@ function create()
     creditsTxt.alpha = 0;
     creditsTxt.antialiasing = Options.antialiasing;
     add(creditsTxt);
+
+    // 移植者署名：黑字 + 白描边，大号
+    porterTxt = new FunkinText(150, 600, 0, "MIOM", 72, false);
+    porterTxt.setFormat(Paths.font("Adult-Swim-Font.ttf"), 72, FlxColor.BLACK);
+    porterTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
+    porterTxt.borderColor = FlxColor.WHITE;
+    porterTxt.borderSize = 5;
+    porterTxt.camera = camOptions;
+    porterTxt.alpha = 0;
+    porterTxt.antialiasing = Options.antialiasing;
+    add(porterTxt);
 
     hxandCNE = new FlxSprite(0, -370).loadGraphic(Paths.image("menu/CNE AND HX"));
     hxandCNE.scale.set(0.5, 0.5);
@@ -266,6 +280,8 @@ function accelerateLogoPhase()
 
     if (!optionsRevealed) {
         optionsRevealed = true;
+        // 选项一露出来就能选/能点，不等淡入结束
+        canInteract = true;
         FlxTween.cancelTweensOf(grpGroupOptions);
         FlxTween.tween(grpGroupOptions, {alpha: 1}, 1.0, {ease: FlxEase.expoOut});
     }
@@ -286,6 +302,7 @@ function showCreditsEEP()
     FlxTween.cancelTweensOf(creditsTxt);
     FlxTween.tween(logo, {alpha: 0}, 1);
     FlxTween.tween(creditsTxt, {alpha: 1}, 1);
+    FlxTween.tween(porterTxt, {alpha: 1}, 1);
 }
 
 function fadeCreditsEEP()
@@ -295,6 +312,7 @@ function fadeCreditsEEP()
     FlxTween.cancelTweensOf(creditsTxt);
     FlxTween.tween(logo,{alpha: 1},1);
     FlxTween.tween(creditsTxt,{alpha: 0},1);
+    FlxTween.tween(porterTxt,{alpha: 0},1);
 }
 
 function beatHit()

@@ -32,7 +32,7 @@ class MobileOptions extends TreeMenuScreen
 
 		#if TOUCH_CONTROLS
 		// 第一个选项：直接打开虚拟按键布局选择器（原来设置界面按 C 键的入口）
-		add(new TextOption("CONTROLS", "Switch control pad layout", ' >', () -> {
+		add(new TextOption("PAD SETTINGS", "Switch control pad layout", ' >', () -> {
 			var state = MusicBeatState.getState();
 			state.openSubState(new MobileControlSelectSubState());
 			state.persistentUpdate = false;

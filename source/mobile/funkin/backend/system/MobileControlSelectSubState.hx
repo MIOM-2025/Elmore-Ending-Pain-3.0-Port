@@ -305,18 +305,24 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 
 	function checkArrowButton(button:FlxSprite, func:Void->Void)
 	{
-		if (TouchUtil.overlaps(button))
+		// 触摸和鼠标都认：以前只认 FlxG.touches，鼠标点方向键没反应
+		var over:Bool = TouchUtil.overlaps(button) || FlxG.mouse.overlaps(button, ui);
+		var held:Bool = TouchUtil.pressed || FlxG.mouse.pressed;
+		var just:Bool = TouchUtil.justPressed || FlxG.mouse.justPressed;
+		var released:Bool = TouchUtil.justReleased || FlxG.mouse.justReleased;
+
+		if (over)
 		{
-			if (TouchUtil.pressed)
+			if (held)
 				button.animation.play('press');
-			if (TouchUtil.justPressed)
+			if (just)
 			{
 				if (options[curOption] == "Pad-Extra" && control.touchPad != null)
 					control.touchPad.setExtrasDefaultPos();
 				func();
 			}
 		}
-		if (TouchUtil.justReleased && button.animation.curAnim.name == 'press')
+		if (released && button.animation.curAnim != null && button.animation.curAnim.name == 'press')
 			button.animation.play('idle');
 		if (FlxG.keys.justPressed.LEFT && button == leftArrow || FlxG.keys.justPressed.RIGHT && button == rightArrow)
 			func();
