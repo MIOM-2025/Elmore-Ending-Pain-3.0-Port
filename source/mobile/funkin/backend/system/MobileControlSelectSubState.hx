@@ -19,6 +19,8 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 	var control:MobileControls;
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
+	var prevBtn:FlxText;
+	var nextBtn:FlxText;
 	var itemText:Alphabet;
 	var positionText:FlxText;
 	var positionTextBg:FlxSprite;
@@ -79,6 +81,17 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		rightArrow.setPosition(itemText.x + itemText.width + 10, itemText.y - 25);
 		rightArrow.cameras = [ui];
 		add(rightArrow);
+
+		// 明确的左右切换按钮（带文字提示，只在这两个按钮上生效）
+		prevBtn = new FlxText(leftArrow.x - 10, itemText.y + 95, 0, "< PREV", 32);
+		prevBtn.setFormat(Paths.font('vcr.ttf'), 32, FlxColor.WHITE, FlxTextAlign.LEFT);
+		prevBtn.cameras = [ui];
+		add(prevBtn);
+
+		nextBtn = new FlxText(0, itemText.y + 95, 0, "NEXT >", 32);
+		nextBtn.setFormat(Paths.font('vcr.ttf'), 32, FlxColor.WHITE, FlxTextAlign.LEFT);
+		nextBtn.cameras = [ui];
+		add(nextBtn);
 
 		positionText = new FlxText(0, FlxG.height, FlxG.width / 4, '');
 		positionText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, FlxTextAlign.LEFT);
@@ -164,7 +177,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			changeOption(1);
 		});
 
-		// 箭头命中区太小，兜底：点屏幕左/右半边也能切换 Pad 类型
+		// 明确的 PREV / NEXT 按钮（只在这两个按钮范围内生效，不抢别的拖动）
 		var tapX:Float = -1, tapY:Float = -1;
 		for (touch in FlxG.touches.list)
 			if (touch != null && touch.justPressed) { tapX = touch.screenX; tapY = touch.screenY; break; }
@@ -172,12 +185,8 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 
 		if (tapX >= 0)
 		{
-			tapLog("tap " + tapX + "," + tapY);
-			if (tapY > FlxG.height * 0.22 && tapY < FlxG.height * 0.82)
-			{
-				if (tapX < FlxG.width * 0.4) changeOption(-1);
-				else if (tapX > FlxG.width * 0.6) changeOption(1);
-			}
+			if (inButton(prevBtn, tapX, tapY)) changeOption(-1);
+			else if (inButton(nextBtn, tapX, tapY)) changeOption(1);
 		}
 
 		if (options[curOption] == 'Pad-Custom' || options[curOption] == 'Pad-Extra')
@@ -308,12 +317,20 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		setOptionText();
 	}
 
+	function inButton(b:FlxText, x:Float, y:Float):Bool
+	{
+		if (b == null) return false;
+		// 留一点余量，手指好点
+		return x >= b.x - 14 && x <= b.x + b.width + 14 && y >= b.y - 14 && y <= b.y + b.height + 14;
+	}
+
 	function setOptionText()
 	{
 		itemText.text = options[curOption].replace('-', ' ');
 		itemText.updateHitbox();
 		itemText.offset.set(0, 15);
 		FlxTween.tween(rightArrow, {x: itemText.x + itemText.width + 10}, 0.1, {ease: FlxEase.quintOut});
+		if (nextBtn != null) nextBtn.x = itemText.x + itemText.width + 40;
 	}
 
 	function updatePosText()
