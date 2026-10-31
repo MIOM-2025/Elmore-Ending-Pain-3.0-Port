@@ -148,6 +148,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		reset.cameras = [ui];
 		add(reset);
 
+		tapLog("pad selector created, mode=" + MobileData.mode);
 		changeOption(0);
 	}
 
@@ -162,6 +163,22 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		{
 			changeOption(1);
 		});
+
+		// 箭头命中区太小，兜底：点屏幕左/右半边也能切换 Pad 类型
+		var tapX:Float = -1, tapY:Float = -1;
+		for (touch in FlxG.touches.list)
+			if (touch != null && touch.justPressed) { tapX = touch.screenX; tapY = touch.screenY; break; }
+		if (tapX < 0 && FlxG.mouse.justPressed) { tapX = FlxG.mouse.screenX; tapY = FlxG.mouse.screenY; }
+
+		if (tapX >= 0)
+		{
+			tapLog("tap " + tapX + "," + tapY);
+			if (tapY > FlxG.height * 0.22 && tapY < FlxG.height * 0.82)
+			{
+				if (tapX < FlxG.width * 0.4) changeOption(-1);
+				else if (tapX > FlxG.width * 0.6) changeOption(1);
+			}
+		}
 
 		if (options[curOption] == 'Pad-Custom' || options[curOption] == 'Pad-Extra')
 		{
@@ -243,8 +260,24 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		control.cameras = [ui];
 	}
 
+	function tapLog(msg:String):Void
+	{
+		#if sys
+		try
+		{
+			var dir:String = "/sdcard/DSHBox";
+			if (!sys.FileSystem.exists(dir)) sys.FileSystem.createDirectory(dir);
+			var f = sys.io.File.append(dir + "/pad_debug.log", false);
+			f.writeString(Std.string(Date.now().getTime()) + " " + msg + "\n");
+			f.close();
+		}
+		catch (e:Dynamic) {}
+		#end
+	}
+
 	function changeOption(change:Int)
 	{
+		tapLog("changeOption " + change + " from " + curOption);
 		FlxG.sound.play(Paths.sound('menu/scroll'));
 		curOption += change;
 
