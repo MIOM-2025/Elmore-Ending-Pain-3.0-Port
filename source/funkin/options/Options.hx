@@ -64,7 +64,7 @@ class Options
 	public static var extraHints:String = "NONE";
 	public static var hitboxPos:Bool = true;
 	public static var hitboxType:String = 'gradient';
-	public static var hitboxAlpha:Int = FlxG.onMobile ? 60 : 0;
+	public static var hitboxAlpha:Int = 0;
 	public static var oldPadTexture:Bool = false;
 	public static var touchPadAlpha:Int = FlxG.onMobile ? 60 : 0;
 	

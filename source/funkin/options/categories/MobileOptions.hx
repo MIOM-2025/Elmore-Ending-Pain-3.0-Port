@@ -31,14 +31,6 @@ class MobileOptions extends TreeMenuScreen
         super('optionsTree.mobile-name', 'optionsTree.mobile-name', 'MobileOptions.');
 
 		#if TOUCH_CONTROLS
-		// 第一个选项：直接打开虚拟按键布局选择器（原来设置界面按 C 键的入口）
-		add(new TextOption("PAD SETTINGS", "Switch control pad layout", ' >', () -> {
-			var state = MusicBeatState.getState();
-			state.openSubState(new MobileControlSelectSubState());
-			state.persistentUpdate = false;
-			state.persistentDraw = true;
-		}));
-
 		//add(new ArrayOption(getNameID('extraHints'), getDescID('extraHints'), ['NONE', 'SINGLE', 'DOUBLE'], ["None", "Single", "Double"], 'extraHints'));
 		add(new NumOption(getNameID('hitboxAlpha'), getDescID('hitboxAlpha'), 0, 100, 5, "hitboxAlpha"));
 		add(new Checkbox(getNameID('oldPadTexture'), getDescID('oldPadTexture'), "oldPadTexture", () ->

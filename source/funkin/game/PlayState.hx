@@ -1993,6 +1993,7 @@ class PlayState extends MusicBeatState
 			rating.antialiasing = evt.ratingAntialiasing;
 		}
 		rating.updateHitbox();
+		if (Options.middleScroll) rating.x = FlxG.width - rating.width - 10;
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			startDelay: Conductor.crochet * 0.001,
@@ -2020,6 +2021,7 @@ class PlayState extends MusicBeatState
 					comboSpr.antialiasing = evt.ratingAntialiasing;
 				}
 				comboSpr.updateHitbox();
+				if (Options.middleScroll) comboSpr.x = FlxG.width - comboSpr.width - 10;
 
 				FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
 					onComplete: function(tween:FlxTween)
@@ -2034,7 +2036,8 @@ class PlayState extends MusicBeatState
 			for (i in 0...separatedScore.length)
 			{
 				var numScore:FlxSprite = comboGroup.recycleLoop(FlxSprite).loadAnimatedGraphic(Paths.image('${pre}num${separatedScore.charAt(i)}${suf}'));
-				numScore.resetSprite(comboGroup.x + (43 * i) - 90, comboGroup.y + 80);
+				var startX:Float = Options.middleScroll ? (FlxG.width - 43 * separatedScore.length - 10) : (comboGroup.x - 90);
+				numScore.resetSprite(startX + (43 * i), comboGroup.y + 80);
 				if (hasEvent) {
 					numScore.antialiasing = evt.numAntialiasing;
 					numScore.scale.set(evt.numScale, evt.numScale);
