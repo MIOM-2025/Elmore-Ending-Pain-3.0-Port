@@ -14,6 +14,7 @@ var bandB:FlxSprite = null;
 var vignette:FlxSprite = null;
 
 var vcrRec:FlxText = null;
+var vcrDot:FlxSprite = null;
 var vcrMsg:FlxText = null;
 var vcrTime:FlxText = null;
 var playTime:Float = 0;
@@ -92,12 +93,24 @@ function startSnow() {
     // ---- 录像带 OSD（左上角，黄字黑边）----
     clockStr = nowClock();
 
-    vcrRec = new FlxText(40, 28, 0, "● REC", 34);
+    vcrRec = new FlxText(40, 28, 0, "REC", 34);
     vcrRec.scrollFactor.set(0, 0);
     vcrRec.cameras = [camOver];
     vcrRec.alpha = 0;
     add(vcrRec);
     styleVcr(vcrRec, 34);
+    vcrRec.updateHitbox();
+
+    // 红色像素圆点：高度和 REC 文字一致，左边缘与下面 TAPE DAMAGED 对齐
+    var dotSize:Float = (vcrRec.height > 0 ? vcrRec.height : 34);
+    vcrDot = new FlxSprite(40, vcrRec.y);
+    vcrDot.makeGraphic(Std.int(dotSize), Std.int(dotSize), 0xFFFF2A2A);
+    vcrDot.scrollFactor.set(0, 0);
+    vcrDot.cameras = [camOver];
+    vcrDot.alpha = 0;
+    add(vcrDot);
+
+    vcrRec.x = 40 + dotSize + 12;
 
     vcrMsg = new FlxText(40, 76, 0, "TAPE DAMAGED", 34);
     vcrMsg.scrollFactor.set(0, 0);
@@ -120,6 +133,7 @@ function startSnow() {
 
     // 文字等雪花显示后再淡入
     FlxTween.tween(vcrRec, {alpha: 0.95}, 0.4, {startDelay: 1.6});
+    FlxTween.tween(vcrDot, {alpha: 0.95}, 0.4, {startDelay: 1.6});
     FlxTween.tween(vcrMsg, {alpha: 1}, 0.4, {startDelay: 1.9});
     FlxTween.tween(vcrTime, {alpha: 0.9}, 0.4, {startDelay: 2.2});
     FlxTween.tween(vignette, {alpha: 0.55}, 0.5, {startDelay: 1.8});
@@ -318,23 +332,19 @@ function update(elpased:Float) {
     if (!restart) {
         playTime += elpased;
 
-        // REC 闪烁（最上面那行）
-        if (vcrRec != null) {
-            if (Math.sin(playTime * 6.0) > 0) {
-                vcrRec.alpha = 0.95;
-            } else {
-                vcrRec.alpha = 0.15;
-            }
-        }
+        // 文字常亮，只让左边的红色像素点闪
+        if (vcrRec != null) vcrRec.alpha = 0.95;
+        if (vcrDot != null) vcrDot.alpha = (Math.sin(playTime * 6.0) > 0) ? 0.95 : 0.12;
 
         // 现实时间（每 0.5s 刷新）
         clockAcc += elpased;
         if (clockAcc >= 0.5) {
             clockAcc = 0;
             var c:String = nowClock();
-            if (vcrTime != null && c != clockStr) {
+            if (vcrTime != null) {
                 clockStr = c;
                 vcrTime.text = c;
+                if (playTime > 2.2) vcrTime.alpha = 0.9;
             }
         }
 

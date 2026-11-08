@@ -19,9 +19,25 @@ function create(){
     groupers.camera = camHUD;
     comboGroup.kill();
     }
+
+    applyScrollLayout();
+}
+
+// 居中滚动（Middlescroll）：判定/连击贴右边，y 不变
+function applyScrollLayout() {
+    var mid:Bool = Options.middleScroll;
+    ratingGroup.alignment = mid ? 'right' : 'center';
+    numberGroup.alignment = mid ? 'right' : 'center';
+    ratingGroup.fieldWidth = mid ? FlxG.width - 12 : FlxG.width;
+    numberGroup.fieldWidth = mid ? FlxG.width - 12 : FlxG.width;
+    if (mid) {
+        ratingGroup.x = 0;
+        numberGroup.x = 0;
+    }
 }
 
 function update(elapsed:Float){
+    applyScrollLayout();
     numberGroup.scale.set(lerp(numberGroup.scale.x, 1.4, 0.25), lerp(numberGroup.scale.y, 1.4, 0.2));
     ratingGroup.scale.set(lerp(ratingGroup.scale.x, 1.4, 0.25), lerp(ratingGroup.scale.y, 1.4, 0.2));
     numberGroup.text = StringTools.lpad(Std.string(combo), '0', 3);
@@ -32,7 +48,7 @@ function change(rating:String) {
     ratingGroup.alpha = numberGroup.alpha = 1;
     ratingGroup.scale.set(1.6, 1.6);
     numberGroup.scale.set(1.6, 1.6);
-    ratingGroup.screenCenter(FlxAxes.X);
+    if (!Options.middleScroll) ratingGroup.screenCenter(FlxAxes.X);
     
     for(ratings in [ratingGroup, numberGroup]) {
         FlxTween.cancelTweensOf(ratings);
