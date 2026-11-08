@@ -20,7 +20,7 @@ var vcrTime:FlxText = null;
 var playTime:Float = 0;
 var tearT:Float = 0;
 var clockAcc:Float = 0;
-var clockStr:String = "--:--";
+var clockStr:String = "00:00";
 
 var menuShown:Bool = false;
 var menuReady:Bool = false;
@@ -91,7 +91,7 @@ function startSnow() {
     add(vignette);
 
     // ---- 录像带 OSD（左上角，黄字黑边）----
-    clockStr = nowClock();
+    clockStr = "00:00";
 
     vcrRec = new FlxText(40, 28, 0, "REC", 34);
     vcrRec.scrollFactor.set(0, 0);
@@ -336,11 +336,18 @@ function update(elpased:Float) {
         if (vcrRec != null) vcrRec.alpha = 0.95;
         if (vcrDot != null) vcrDot.alpha = (Math.sin(playTime * 6.0) > 0) ? 0.95 : 0.12;
 
-        // 现实时间（每 0.5s 刷新）
+        // 死亡后计时：00:00 起，最高 99:59
         clockAcc += elpased;
-        if (clockAcc >= 0.5) {
+        if (clockAcc >= 0.1) {
             clockAcc = 0;
-            var c:String = nowClock();
+            var total:Int = Std.int(playTime);
+            if (total < 0) total = 0;
+            var mm:Int = Std.int(total / 60);
+            var ss:Int = total % 60;
+            if (mm > 99) { mm = 99; ss = 59; }
+            var hs:String = (mm < 10 ? "0" : "") + Std.string(mm);
+            var ssStr:String = (ss < 10 ? "0" : "") + Std.string(ss);
+            var c:String = hs + ":" + ssStr;
             if (vcrTime != null) {
                 clockStr = c;
                 vcrTime.text = c;
