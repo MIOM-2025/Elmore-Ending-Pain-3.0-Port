@@ -164,6 +164,9 @@ function create()
     creditsTxt2 = new FunkinText(500, miomTxt.y + Math.max(miomTxt.height, miomSuffix.height) + 14, 0, creditsTail, 32);
     creditsTxt2.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.WHITE);
     creditsTxt2.alignment = "center";
+    // 特殊感谢这段也居中在名单列里
+    creditsTxt2.fieldWidth = creditsTxt.width;
+    creditsTxt2.x = creditsTxt.x;
     creditsTxt2.camera = camOptions;
     creditsTxt2.alpha = 0;
     creditsTxt2.antialiasing = Options.antialiasing;

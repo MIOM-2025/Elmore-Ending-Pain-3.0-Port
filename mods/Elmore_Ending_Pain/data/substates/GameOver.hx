@@ -1,4 +1,5 @@
 import hxvlc.flixel.FlxVideoSprite;
+import flixel.util.FlxSpriteUtil;
 import flixel.text.FlxTextBorderStyle;
 
 var camOver:FlxCamera = new FlxCamera();
@@ -172,7 +173,8 @@ function startSnow() {
     // 红色像素圆点：高度和 REC 文字一致，左边缘与下面 TAPE DAMAGED 对齐
     var dotSize:Float = (vcrRec.height > 0 ? vcrRec.height : 34);
     vcrDot = new FlxSprite(40, vcrRec.y);
-    vcrDot.makeGraphic(Std.int(dotSize), Std.int(dotSize), 0xFFFF2A2A);
+    vcrDot.makeGraphic(Std.int(dotSize), Std.int(dotSize), 0x00000000);
+    FlxSpriteUtil.drawCircle(vcrDot, dotSize * 0.5, dotSize * 0.5, dotSize * 0.5 - 1, 0xFFFF2A2A);
     vcrDot.scrollFactor.set(0, 0);
     vcrDot.cameras = [camOver];
     vcrDot.alpha = 0;
@@ -220,12 +222,12 @@ function styleVcr(t:FlxText, size:Int) {
 }
 
 function createMenu() {
-    menuTitle = new FlxText(0, FlxG.height * 0.565, 0, "SELECT?", 46);
+    menuTitle = new FlxText(0, FlxG.height * 0.565, 0, "SELECT?", 40);
     menuTitle.scrollFactor.set(0, 0);
     menuTitle.cameras = [camOver];
     menuTitle.alpha = 0;
     add(menuTitle);
-    styleVcr(menuTitle, 46);
+    styleVcr(menuTitle, 40);
     menuTitle.borderSize = 3;
     menuTitle.updateHitbox();
     // 左对齐：等下面选项量好宽度后再统一设置
