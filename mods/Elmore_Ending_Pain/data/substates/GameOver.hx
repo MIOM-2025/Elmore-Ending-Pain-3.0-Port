@@ -178,8 +178,12 @@ function startSnow() {
     // 红色像素圆点：高度和 REC 文字一致，左边缘与下面 TAPE DAMAGED 对齐
     var dotSize:Float = (vcrRec.height > 0 ? vcrRec.height : 34);
     vcrDot = new FlxSprite(40, vcrRec.y);
-    vcrDot.makeGraphic(Std.int(dotSize), Std.int(dotSize), 0x00000000);
-    FlxSpriteUtil.drawCircle(vcrDot, dotSize * 0.5, dotSize * 0.5, dotSize * 0.5 - 1, 0xFFFF2A2A);
+    // 低分辨率画圆再放大 → 像素感的圆点
+    var pxSize:Int = 13;
+    vcrDot.makeGraphic(pxSize, pxSize, 0x00000000);
+    FlxSpriteUtil.drawCircle(vcrDot, (pxSize - 1) * 0.5, (pxSize - 1) * 0.5, (pxSize - 1) * 0.5 - 0.2, 0xFFFF2A2A);
+    vcrDot.scale.set(dotSize / pxSize, dotSize / pxSize);
+    vcrDot.updateHitbox();
     vcrDot.scrollFactor.set(0, 0);
     vcrDot.cameras = [camOver];
     vcrDot.alpha = 0;
