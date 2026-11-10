@@ -20,6 +20,7 @@ var tadTxt:FunkinText;
 var creditsTxt:FunkinText;
 var creditsTxt2:FunkinText;
 var miomTxt:FunkinText;
+var miomSuffix:FunkinText;
 var hxandCNE:FlxSprite;
 public var vhsShader = new CustomShader("vhs");
 public var optionsArray:Array<String> = [
@@ -132,19 +133,35 @@ function create()
     creditsTxt.antialiasing = Options.antialiasing;
     add(creditsTxt);
 
-    // 移植者那一条：黑字 + 白描边
-    miomTxt = new FunkinText(500, creditsTxt.y + creditsTxt.height + 10, 0, "MIOM - mobile port", 32, false);
-    miomTxt.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.BLACK);
+    // 移植者那一条：MIOM 用专用字体（注意大小写：MIOm），后缀用原版字体
+    miomTxt = new FunkinText(500, creditsTxt.y + creditsTxt.height + 10, 0, "MIOm", 40, false);
+    miomTxt.setFormat(Paths.font("MIOM.ttf"), 40, FlxColor.WHITE);
     miomTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
-    miomTxt.borderColor = FlxColor.WHITE;
+    miomTxt.borderColor = FlxColor.BLACK;
     miomTxt.borderSize = 3;
-    miomTxt.alignment = "center";
     miomTxt.camera = camOptions;
     miomTxt.alpha = 0;
     miomTxt.antialiasing = Options.antialiasing;
     add(miomTxt);
 
-    creditsTxt2 = new FunkinText(500, miomTxt.y + miomTxt.height + 14, 0, creditsTail, 32);
+    miomSuffix = new FunkinText(0, miomTxt.y, 0, " - mobile port", 32, false);
+    miomSuffix.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.WHITE);
+    miomSuffix.borderStyle = FlxTextBorderStyle.OUTLINE;
+    miomSuffix.borderColor = FlxColor.BLACK;
+    miomSuffix.borderSize = 3;
+    miomSuffix.camera = camOptions;
+    miomSuffix.alpha = 0;
+    miomSuffix.antialiasing = Options.antialiasing;
+    add(miomSuffix);
+
+    // 整行在名单列内居中（不是屏幕居中）
+    var lineW:Float = miomTxt.width + miomSuffix.width;
+    var cx:Float = creditsTxt.x + creditsTxt.width * 0.5;
+    miomTxt.x = cx - lineW * 0.5;
+    miomSuffix.x = miomTxt.x + miomTxt.width;
+    miomSuffix.y = miomTxt.y + (miomTxt.height - miomSuffix.height) * 0.5;
+
+    creditsTxt2 = new FunkinText(500, miomTxt.y + Math.max(miomTxt.height, miomSuffix.height) + 14, 0, creditsTail, 32);
     creditsTxt2.setFormat(Paths.font("Adult-Swim-Font.ttf"), 32, FlxColor.WHITE);
     creditsTxt2.alignment = "center";
     creditsTxt2.camera = camOptions;
@@ -311,6 +328,7 @@ function showCreditsEEP()
     FlxTween.tween(creditsTxt, {alpha: 1}, 1);
     FlxTween.tween(creditsTxt2, {alpha: 1}, 1);
     FlxTween.tween(miomTxt, {alpha: 1}, 1);
+    FlxTween.tween(miomSuffix, {alpha: 1}, 1);
 }
 
 function fadeCreditsEEP()
@@ -322,6 +340,7 @@ function fadeCreditsEEP()
     FlxTween.tween(creditsTxt,{alpha: 0},1);
     FlxTween.tween(creditsTxt2,{alpha: 0},1);
     FlxTween.tween(miomTxt,{alpha: 0},1);
+    FlxTween.tween(miomSuffix,{alpha: 0},1);
 }
 
 function beatHit()
