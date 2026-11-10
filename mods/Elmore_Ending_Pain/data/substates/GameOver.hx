@@ -31,8 +31,15 @@ var menuReplay:FlxText = null;
 var menuExit:FlxText = null;
 var menuPointer:FlxSprite = null;
 
+function isClassicDeath():Bool {
+    // 用警告界面/设置里已有的“Replace Death Screen”开关（存档键还是 censorDeath）
+    // 勾上 = 替换成 VHS 磁带界面；取消 = 原版死亡界面
+    return FlxG.save.data == null || FlxG.save.data.censorDeath != true;
+}
+
 function create(event) {
     event.cancel();
+    if (isClassicDeath()) { createClassic(); return; }
     FlxG.sound.music = false;
     camOver.bgColor = 0x0;
 
@@ -42,6 +49,67 @@ function create(event) {
         FlxG.cameras.add(camOver, false);
         startSnow();
     });
+}
+
+var classicSprite:FlxSprite = null;
+var classicSprite2:FlxSprite = null;
+var classicVideo:FlxVideoSprite = null;
+var classicRestart:Bool = false;
+
+// 原版死亡界面（Static-Death 视频 + 11 秒后露出 image-49）
+function createClassic() {
+    FlxG.sound.music = null;
+    camOver.bgColor = 0x0;
+    FlxG.cameras.add(camOver, false);
+
+    classicSprite = new FlxSprite().loadGraphic(Paths.image("game/gameover/image-49"));
+    classicSprite.camera = camOver;
+    classicSprite.visible = false;
+    classicSprite.setGraphicSize(FlxG.width, FlxG.height);
+    classicSprite.screenCenter();
+    add(classicSprite);
+
+    classicSprite2 = new FlxSprite().loadGraphic(Paths.image("game/gameover/Void"));
+    classicSprite2.camera = camOver;
+    classicSprite2.visible = false;
+    classicSprite2.setGraphicSize(FlxG.width, FlxG.height);
+    classicSprite2.screenCenter();
+    add(classicSprite2);
+
+    classicVideo = new FlxVideoSprite(0, 0);
+    classicVideo.load(Assets.getPath(Paths.video('Static-Death')));
+    classicVideo.play();
+    classicVideo.alpha = 0;
+    classicVideo.bitmap.onFormatSetup.add(() -> {
+        classicVideo.setGraphicSize(FlxG.width, FlxG.height);
+        classicVideo.screenCenter();
+    });
+    classicVideo.bitmap.onEndReached.add(function() {
+        classicVideo.destroy();
+        FlxG.sound.playMusic(Paths.music("gameOver"));
+    });
+    classicVideo.camera = camOver;
+    add(classicVideo);
+
+    FlxTween.tween(classicVideo, {alpha: 1}, 2, {startDelay: 1});
+    FlxTween.tween(classicVideo, {alpha: 0}, 2, {startDelay: 12});
+    new FlxTimer().start(11, function(ola:FlxTimer) {
+        classicSprite.visible = true;
+    });
+}
+
+function updateClassic(el:Float) {
+    if (controls.ACCEPT && !classicRestart) {
+        classicRestart = true;
+        classicSprite.visible = false;
+        classicSprite2.visible = true;
+        if (FlxG.sound.music != null) FlxG.sound.music.stop();
+        FlxG.sound.music = null;
+        new FlxTimer().start(1.5, function(tmr:FlxTimer) {
+            FlxG.switchState(new PlayState());
+        });
+    }
+    if (controls.BACK) FlxG.switchState(new ModState("MainMenu"));
 }
 
 function startSnow() {
@@ -328,6 +396,7 @@ function mkBand(h:Float, col:Int, a:Float):FlxSprite {
 }
 
 function update(elpased:Float) {
+    if (isClassicDeath()) { updateClassic(elpased); return; }
     if (!started) return;
     if (!restart) {
         playTime += elpased;

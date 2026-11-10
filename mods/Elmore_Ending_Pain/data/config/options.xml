@@ -3,7 +3,7 @@
  <checkbox id="hideWarning" name="Hide Warning Screen" desc="Skip the warning screen on startup (uncheck to see it again)" />
  <separator height="16" />
  <checkbox id="censorVideo" name="Censor Video" desc="Censor the warning video" />
- <checkbox id="censorDeath" name="Censor Death" desc="Censor the death animation" />
+ <checkbox id="censorDeath" name="Replace Death Screen" desc="Use the new VHS tape death screen instead of the original" />
  <checkbox id="censorHealth" name="Censor Health" desc="Use the alternate VHS heart" />
  <separator height="16" />
  <checkbox id="vhsEnabled" name="VHS Shader" desc="Enable the VHS shader" />

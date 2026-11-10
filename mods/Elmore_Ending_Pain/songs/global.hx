@@ -61,4 +61,4 @@ function onPostGameOver()
 		camChain.visible = false;
 	});
 
-//function onGamePause(e) e.cancel();
+function onGamePause(e) e.cancel();

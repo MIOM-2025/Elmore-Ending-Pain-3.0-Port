@@ -152,7 +152,7 @@ function createTwoMainOptions() {
     var opt1Y = redTitleTxt.y + redTitleTxt.height + 25;
     var spacing = 50;
 
-    var labels = ["Censor Video", "Censor Death Animation"];
+    var labels = ["Censor Video", "Replace Death Screen"];
     var keys   = ["censorVideo", "censorDeath"];
 
     for (i in 0...labels.length) {
