@@ -87,10 +87,15 @@ function createClassic() {
     });
     classicVideo.bitmap.onEndReached.add(function() {
         classicVideo.destroy();
-        FlxG.sound.playMusic(Paths.music("gameOver"));
+        // 旧版死亡界面不播放死亡音乐
     });
     classicVideo.camera = camOver;
     add(classicVideo);
+
+    // 旧版：视频声音压低（不是静音）
+    try { classicVideo.volume = 0.12; } catch (e:Dynamic) {
+        try { classicVideo.bitmap.volume = 0.12; } catch (e2:Dynamic) {}
+    }
 
     FlxTween.tween(classicVideo, {alpha: 1}, 2, {startDelay: 1});
     FlxTween.tween(classicVideo, {alpha: 0}, 2, {startDelay: 12});
