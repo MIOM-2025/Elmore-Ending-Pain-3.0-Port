@@ -2,7 +2,7 @@
  <checkbox id="EEPvfpsCounter" name="Show FPS" desc="Show the FPS counter (off by default)" />
  <checkbox id="hideWarning" name="Hide Warning Screen" desc="Skip the warning screen on startup (uncheck to see it again)" />
  <separator height="16" />
- <checkbox id="censorVideo" name="Censor Video" desc="Censor the warning video" />
+ <checkbox id="censorVideo" name="Remove Ending Video" desc="Skip the ending video completely instead of playing it" />
  <checkbox id="censorDeath" name="Replace Death Screen" desc="Use the new VHS tape death screen instead of the original" />
  <checkbox id="censorHealth" name="Censor Health" desc="Use the alternate VHS heart" />
  <separator height="16" />
