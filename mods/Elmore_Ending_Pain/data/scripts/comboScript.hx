@@ -44,26 +44,41 @@ function layout() {
 	var pad:Float = 20;
 	var gap:Float = 6;
 
-	ratingGroup.updateHitbox();
-	numberGroup.updateHitbox();
+	var rw:Float = sizeW(ratingGroup);
+	var rh:Float = sizeH(ratingGroup);
+	var nw:Float = sizeW(numberGroup);
+	var nh:Float = sizeH(numberGroup);
 
 	if (!Options.middleScroll) {
-		ratingGroup.x = Math.round((FlxG.width - ratingGroup.width) * 0.5);
+		ratingGroup.x = Math.round((FlxG.width - rw) * 0.5);
 		ratingGroup.y = 110;
-		numberGroup.x = Math.round((FlxG.width - numberGroup.width) * 0.5);
-		numberGroup.y = ratingGroup.y - numberGroup.height - gap;
+		numberGroup.x = Math.round((FlxG.width - nw) * 0.5);
+		numberGroup.y = ratingGroup.y - nh - gap;
 	} else if (!Options.downscroll) {
-		ratingGroup.x = FlxG.width - ratingGroup.width - pad;
+		ratingGroup.x = FlxG.width - rw - pad;
 		ratingGroup.y = 4;
-		numberGroup.x = FlxG.width - numberGroup.width - pad;
-		numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
+		numberGroup.x = FlxG.width - nw - pad;
+		numberGroup.y = ratingGroup.y + rh + gap;
 	} else {
-		var totalH:Float = ratingGroup.height + gap + numberGroup.height;
+		var totalH:Float = rh + gap + nh;
 		ratingGroup.x = pad;
 		ratingGroup.y = FlxG.height - totalH - 14;
 		numberGroup.x = pad;
-		numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
+		numberGroup.y = ratingGroup.y + rh + gap;
 	}
+}
+
+// 文本实际显示尺寸（含缩放），不依赖 updateHitbox
+function sizeW(t:FlxText):Float {
+	var w:Float = t.width;
+	if (w <= 1) w = 10;
+	return w;
+}
+
+function sizeH(t:FlxText):Float {
+	var h:Float = t.height;
+	if (h <= 1) h = 10;
+	return h;
 }
 
 function update(elapsed:Float) {
