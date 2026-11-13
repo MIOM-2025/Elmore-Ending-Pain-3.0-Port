@@ -61,9 +61,9 @@ function layout() {
 		numberGroup.y = ratingGroup.y + rh + gap;
 	} else {
 		var totalH:Float = rh + gap + nh;
-		ratingGroup.x = pad;
+		ratingGroup.x = FlxG.width - rw - pad;
 		ratingGroup.y = FlxG.height - totalH - 14;
-		numberGroup.x = pad;
+		numberGroup.x = FlxG.width - nw - pad;
 		numberGroup.y = ratingGroup.y + rh + gap;
 	}
 }
