@@ -304,12 +304,12 @@ class TreeMenu extends UIState {
 	{
 		if (backButton == null || !backButton.exists) return;
 
+		// 不做帧动画，只用第一帧（idle），按下去缩放反馈
 		if (!backHeld && OptionTouch.pressingOn(backButton))
 		{
 			backHeld = true;
-			backButton.animation.play('press');
 			FlxTween.cancelTweensOf(backButton.scale);
-			FlxTween.tween(backButton.scale, {x: 0.38, y: 0.38}, 0.08, {ease: FlxEase.quadOut});
+			FlxTween.tween(backButton.scale, {x: 0.36, y: 0.36}, 0.08, {ease: FlxEase.quadOut});
 		}
 
 		var fire:Bool = OptionTouch.releasedOn(backButton);
@@ -317,19 +317,9 @@ class TreeMenu extends UIState {
 		{
 			backHeld = false;
 			FlxTween.cancelTweensOf(backButton.scale);
-			FlxTween.tween(backButton.scale, {x: 0.45, y: 0.45}, 0.15, {ease: FlxEase.quadOut});
+			FlxTween.tween(backButton.scale, {x: 0.45, y: 0.45}, 0.12, {ease: FlxEase.quadOut});
 
-			if (fire && treeLength > 0)
-			{
-				// 点一下也先播一下按下动画再退，不然手快时看不出反馈
-				backButton.animation.play('press');
-				var target = tree.last();
-				new FlxTimer().start(0.14, function(_) {
-					if (target != null) target.close();
-					if (backButton != null && backButton.exists) backButton.animation.play('idle');
-				});
-			}
-			else backButton.animation.play('idle');
+			if (fire && treeLength > 0) tree.last().close();
 		}
 	}
 	#end

@@ -14,6 +14,7 @@ import funkin.backend.chart.EventsData;
 import funkin.backend.system.framerate.Framerate;
 import funkin.editors.ModConfigWarning;
 import funkin.menus.TitleState;
+import funkin.backend.scripting.ModState;
 import haxe.io.Path;
 
 @dox(hide)
@@ -155,7 +156,13 @@ class MainState extends FlxState {
 
 		// 警告界面里勾了“不再显示”就把开关写进存档，这里读存档，而不是只看编译开关
 		var hideWarningScreen:Bool = FlxG.save.data != null && FlxG.save.data.hideWarning == true;
-		var startState:Class<FlxState> = (Flags.DISABLE_WARNING_SCREEN || hideWarningScreen) ? TitleState : funkin.menus.WarningState;
+		if (Flags.DISABLE_WARNING_SCREEN || hideWarningScreen)
+		{
+			// 跳过警告时直接进模组主菜单，别落到引擎原始主菜单
+			FlxG.switchState(new ModState("MainMenu"));
+			return;
+		}
+		var startState:Class<FlxState> = funkin.menus.WarningState;
 
 		if (Options.devMode && Options.allowConfigWarning) {
 			var lib:ModsFolderLibrary;

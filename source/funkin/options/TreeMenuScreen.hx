@@ -68,6 +68,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 	public var dragging:Bool = false;
 	#if TOUCH_CONTROLS
 	var dragStartY:Float = 0;
+	var dragStartX:Float = 0;
 	var dragStartSelected:Int = 0;
 	var dragLastY:Float = 0;
 	var dragMoved:Bool = false;
@@ -203,6 +204,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 			dragging = true;
 			dragMoved = false;
 			dragStartY = OptionTouch.pointerY;
+			dragStartX = OptionTouch.pointerX;
 			dragLastY = dragStartY;
 			dragStartSelected = curSelected;
 			dragVel = [];
@@ -218,7 +220,9 @@ class TreeMenuScreen extends FlxSpriteGroup {
 		if (OptionTouch.holding)
 		{
 			var dy:Float = OptionTouch.pointerY - dragStartY;
-			if (Math.abs(dy) > 6) dragMoved = true;
+			var dx:Float = OptionTouch.pointerX - dragStartX;
+			// 纵向位移要明显大于横向，才算“上下滚”，避免想左右滑时误触
+			if (Math.abs(dy) > 26 && Math.abs(dy) > Math.abs(dx) * 1.3) dragMoved = true;
 
 			if (dragMoved)
 			{
@@ -261,7 +265,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 				for (v in dragVel) avg += v;
 				if (dragVel.length > 0) avg /= dragVel.length;
 
-				if (Math.abs(avg) > 35) startListInertia(avg < 0 ? 1 : -1, Math.abs(avg));
+				if (Math.abs(avg) > 70) startListInertia(avg < 0 ? 1 : -1, Math.abs(avg));
 			}
 
 			dragVel = [];
@@ -271,7 +275,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 	/** 松手后按速度再滚 1~3 格，到头就停（不循环） */
 	function startListInertia(dir:Int, speed:Float):Void
 	{
-		var steps:Int = Std.int(FlxMath.bound(Math.floor(speed / 200), 1, 4));
+		var steps:Int = Std.int(FlxMath.bound(Math.floor(speed / 420), 1, 2));
 		if (listInertia != null) listInertia.cancel();
 		listInertia = new FlxTimer().start(0.06, function(t:FlxTimer) {
 			var next:Int = curSelected + dir;

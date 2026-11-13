@@ -172,6 +172,19 @@ function create()
     creditsTxt2.antialiasing = Options.antialiasing;
     add(creditsTxt2);
 
+    // 整块名单垂直居中：上下留边相同
+    creditsTxt.updateHitbox();
+    miomTxt.updateHitbox();
+    miomSuffix.updateHitbox();
+    creditsTxt2.updateHitbox();
+    var blockTop:Float = creditsTxt.y;
+    var blockBottom:Float = creditsTxt2.y + creditsTxt2.height;
+    var vOff:Float = (FlxG.height - (blockBottom - blockTop)) * 0.5 - blockTop;
+    creditsTxt.y += vOff;
+    miomTxt.y += vOff;
+    miomSuffix.y += vOff;
+    creditsTxt2.y += vOff;
+
     hxandCNE = new FlxSprite(0, -370).loadGraphic(Paths.image("menu/CNE AND HX"));
     hxandCNE.scale.set(0.5, 0.5);
     hxandCNE.camera = camOptions;

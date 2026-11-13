@@ -23,16 +23,46 @@ function create(){
     applyScrollLayout();
 }
 
-// 居中滚动（Middlescroll）：判定/连击贴右边，y 不变
+// 居中滚动（Middlescroll）布局：
+// 上滚 = 右上角（右边缘贴屏幕右边、上边缘贴屏幕顶），判定在上、连击数字在下，右边缘对齐
+// 下滚 = 左下角，判定在上、连击数字在下
 function applyScrollLayout() {
+    ratingGroup.antialiasing = true;
+    numberGroup.antialiasing = true;
+
     var mid:Bool = Options.middleScroll;
-    ratingGroup.alignment = mid ? 'right' : 'center';
-    numberGroup.alignment = mid ? 'right' : 'center';
-    ratingGroup.fieldWidth = mid ? FlxG.width - 12 : FlxG.width;
-    numberGroup.fieldWidth = mid ? FlxG.width - 12 : FlxG.width;
-    if (mid) {
+    if (!mid) {
+        ratingGroup.alignment = 'center';
+        numberGroup.alignment = 'center';
+        ratingGroup.fieldWidth = FlxG.width;
+        numberGroup.fieldWidth = FlxG.width;
         ratingGroup.x = 0;
         numberGroup.x = 0;
+        ratingGroup.y = 110;
+        numberGroup.y = ratingGroup.y - 60;
+        return;
+    }
+
+    var pad:Float = 20;
+    var gap:Float = 10;
+    ratingGroup.fieldWidth = FlxG.width - pad * 2;
+    numberGroup.fieldWidth = FlxG.width - pad * 2;
+    ratingGroup.x = pad;
+    numberGroup.x = pad;
+
+    if (!Options.downscroll) {
+        // 上滚：右上角
+        ratingGroup.alignment = 'right';
+        numberGroup.alignment = 'right';
+        ratingGroup.y = 4;
+        numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
+    } else {
+        // 下滚：左下角
+        ratingGroup.alignment = 'left';
+        numberGroup.alignment = 'left';
+        var totalH:Float = ratingGroup.height + gap + numberGroup.height;
+        ratingGroup.y = FlxG.height - totalH - 14;
+        numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
     }
 }
 
