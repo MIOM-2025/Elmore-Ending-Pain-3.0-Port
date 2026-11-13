@@ -25,21 +25,12 @@ function create() {
 
 	if (comboGroup != null) comboGroup.kill();
 
-	// 居中模式下开局先亮 2 秒，用来确认位置/字号（同时验证脚本是否真的在跑）
-	if (Options.middleScroll) {
-		ratingGroup.text = "PERFECT";
-		numberGroup.text = "000";
-		ratingGroup.visible = true;
-		numberGroup.visible = true;
-		ratingGroup.alpha = numberGroup.alpha = 1;
-		fadeTimer = 3.0;
-	}
 	layout();
 }
 
-// 上滚 + 居中：判定贴右上角，连击数字在判定下方并对齐右边缘
-// 下滚 + 居中：判定贴左下角，连击数字在判定下方
-// 非居中：保持原来的屏幕中上方居中
+// 居中模式统一贴右侧：上滚 -> 右上角，下滚 -> 右下角
+// （下滚时 HudCamera 会把 y 轴翻转，y 从屏幕底部往上算）
+// 判定在上、连击数字在下，右边缘对齐；非居中时保持原来的屏幕中上方居中
 function layout() {
 	var pad:Float = 20;
 	var gap:Float = 6;
@@ -60,11 +51,11 @@ function layout() {
 		numberGroup.x = FlxG.width - nw - pad;
 		numberGroup.y = ratingGroup.y + rh + gap;
 	} else {
-		var totalH:Float = rh + gap + nh;
-		ratingGroup.x = FlxG.width - rw - pad;
-		ratingGroup.y = FlxG.height - totalH - 14;
+		// 下滚：HudCamera 的 y 轴是翻转的（y 从屏幕底部往上算），所以“贴底”是 y = 4
 		numberGroup.x = FlxG.width - nw - pad;
-		numberGroup.y = ratingGroup.y + rh + gap;
+		numberGroup.y = 4;
+		ratingGroup.x = FlxG.width - rw - pad;
+		ratingGroup.y = numberGroup.y + nh + gap;
 	}
 }
 
