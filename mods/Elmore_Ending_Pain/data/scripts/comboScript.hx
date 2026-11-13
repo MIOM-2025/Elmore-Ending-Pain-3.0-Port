@@ -1,92 +1,102 @@
-import openfl.text.TextFormat;
 import flixel.text.FlxTextBorderStyle;
-import flixel.text.FlxText.FlxTextFormatMarkerPair;
-import flixel.text.FlxText.FlxTextFormat;
-import flixel.util.FlxAxes;
 
 var ratingGroup:FlxText;
 var numberGroup:FlxText;
+var fadeTimer:Float = 0;
 
-function create(){
-    add(ratingGroup = new FlxText(0, 110, FlxG.width).setFormat(Paths.font("Adult-Swim-Font.ttf"), 53, -1, 'center', FlxTextBorderStyle.OUTLINE, FlxColor.BLACK));
-    ratingGroup.borderSize = 3;
+// 判定/连击文字：不用 alignment，全部靠算 x 定位，宽度随文本自适应。
+function create() {
+	ratingGroup = new FlxText(0, 0, 0, "", 53);
+	ratingGroup.setFormat(Paths.font("Adult-Swim-Font.ttf"), 53, -1, "left", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+	ratingGroup.borderSize = 3;
+	ratingGroup.antialiasing = true;
+	ratingGroup.visible = false;
+	add(ratingGroup);
 
-    add(numberGroup = new FlxText(0, ratingGroup.y - 60, FlxG.width).setFormat(Paths.font("Adult-Swim-Font.ttf"), 45, -1, 'center', FlxTextBorderStyle.OUTLINE, FlxColor.BLACK));
-    numberGroup.borderSize = 3;
-    numberGroup.alpha = 0;
+	numberGroup = new FlxText(0, 0, 0, "", 45);
+	numberGroup.setFormat(Paths.font("Adult-Swim-Font.ttf"), 45, -1, "left", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+	numberGroup.borderSize = 3;
+	numberGroup.antialiasing = true;
+	numberGroup.visible = false;
+	add(numberGroup);
 
-    for (groupers in [ratingGroup, numberGroup]){
-    groupers.camera = camHUD;
-    comboGroup.kill();
-    }
+	ratingGroup.camera = camHUD;
+	numberGroup.camera = camHUD;
 
-    applyScrollLayout();
+	if (comboGroup != null) comboGroup.kill();
+
+	// 居中模式下开局先亮 2 秒，用来确认位置/字号（同时验证脚本是否真的在跑）
+	if (Options.middleScroll) {
+		ratingGroup.text = "PERFECT";
+		numberGroup.text = "000";
+		ratingGroup.visible = true;
+		numberGroup.visible = true;
+		ratingGroup.alpha = numberGroup.alpha = 1;
+		fadeTimer = 3.0;
+	}
+	layout();
 }
 
-// 居中滚动（Middlescroll）布局：
-// 上滚 = 右上角（右边缘贴屏幕右边、上边缘贴屏幕顶），判定在上、连击数字在下，右边缘对齐
-// 下滚 = 左下角，判定在上、连击数字在下
-function applyScrollLayout() {
-    ratingGroup.antialiasing = true;
-    numberGroup.antialiasing = true;
+// 上滚 + 居中：判定贴右上角，连击数字在判定下方并对齐右边缘
+// 下滚 + 居中：判定贴左下角，连击数字在判定下方
+// 非居中：保持原来的屏幕中上方居中
+function layout() {
+	var pad:Float = 20;
+	var gap:Float = 6;
 
-    var mid:Bool = Options.middleScroll;
-    if (!mid) {
-        ratingGroup.alignment = 'center';
-        numberGroup.alignment = 'center';
-        ratingGroup.fieldWidth = FlxG.width;
-        numberGroup.fieldWidth = FlxG.width;
-        ratingGroup.x = 0;
-        numberGroup.x = 0;
-        ratingGroup.y = 110;
-        numberGroup.y = ratingGroup.y - 60;
-        return;
-    }
+	ratingGroup.updateHitbox();
+	numberGroup.updateHitbox();
 
-    var pad:Float = 20;
-    var gap:Float = 10;
-    ratingGroup.fieldWidth = FlxG.width - pad * 2;
-    numberGroup.fieldWidth = FlxG.width - pad * 2;
-    ratingGroup.x = pad;
-    numberGroup.x = pad;
-
-    if (!Options.downscroll) {
-        // 上滚：右上角
-        ratingGroup.alignment = 'right';
-        numberGroup.alignment = 'right';
-        ratingGroup.y = 4;
-        numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
-    } else {
-        // 下滚：左下角
-        ratingGroup.alignment = 'left';
-        numberGroup.alignment = 'left';
-        var totalH:Float = ratingGroup.height + gap + numberGroup.height;
-        ratingGroup.y = FlxG.height - totalH - 14;
-        numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
-    }
+	if (!Options.middleScroll) {
+		ratingGroup.x = Math.round((FlxG.width - ratingGroup.width) * 0.5);
+		ratingGroup.y = 110;
+		numberGroup.x = Math.round((FlxG.width - numberGroup.width) * 0.5);
+		numberGroup.y = ratingGroup.y - numberGroup.height - gap;
+	} else if (!Options.downscroll) {
+		ratingGroup.x = FlxG.width - ratingGroup.width - pad;
+		ratingGroup.y = 4;
+		numberGroup.x = FlxG.width - numberGroup.width - pad;
+		numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
+	} else {
+		var totalH:Float = ratingGroup.height + gap + numberGroup.height;
+		ratingGroup.x = pad;
+		ratingGroup.y = FlxG.height - totalH - 14;
+		numberGroup.x = pad;
+		numberGroup.y = ratingGroup.y + ratingGroup.height + gap;
+	}
 }
 
-function update(elapsed:Float){
-    applyScrollLayout();
-    numberGroup.scale.set(lerp(numberGroup.scale.x, 1.4, 0.25), lerp(numberGroup.scale.y, 1.4, 0.2));
-    ratingGroup.scale.set(lerp(ratingGroup.scale.x, 1.4, 0.25), lerp(ratingGroup.scale.y, 1.4, 0.2));
-    numberGroup.text = StringTools.lpad(Std.string(combo), '0', 3);
+function update(elapsed:Float) {
+	if (fadeTimer > 0) {
+		fadeTimer -= elapsed;
+		if (fadeTimer <= 0) {
+			ratingGroup.visible = numberGroup.visible = false;
+		} else if (fadeTimer < 1) {
+			ratingGroup.alpha = numberGroup.alpha = fadeTimer;
+		} else {
+			ratingGroup.alpha = numberGroup.alpha = 1;
+		}
+	}
+
+	ratingGroup.scale.set(FlxMath.lerp(ratingGroup.scale.x, 1.4, 0.2), FlxMath.lerp(ratingGroup.scale.y, 1.4, 0.2));
+	numberGroup.scale.set(FlxMath.lerp(numberGroup.scale.x, 1.4, 0.2), FlxMath.lerp(numberGroup.scale.y, 1.4, 0.2));
+
+	numberGroup.text = StringTools.lpad(Std.string(combo), '0', 3);
+
+	layout();
 }
 
 function change(rating:String) {
-    ratingGroup.text = rating.toUpperCase();
-    ratingGroup.alpha = numberGroup.alpha = 1;
-    ratingGroup.scale.set(1.6, 1.6);
-    numberGroup.scale.set(1.6, 1.6);
-    if (!Options.middleScroll) ratingGroup.screenCenter(FlxAxes.X);
-    
-    for(ratings in [ratingGroup, numberGroup]) {
-        FlxTween.cancelTweensOf(ratings);
-        FlxTween.tween(ratings, {alpha: 0}, 1, {startDelay: 1});
-    }
+	ratingGroup.text = rating.toUpperCase();
+	ratingGroup.visible = numberGroup.visible = true;
+	ratingGroup.alpha = numberGroup.alpha = 1;
+	ratingGroup.scale.set(1.6, 1.6);
+	numberGroup.scale.set(1.6, 1.6);
+	fadeTimer = 2.0;
+	layout();
 }
 
 function onPlayerHit(event) {
-    if (!event.note.isSustainNote)
-        change(event.rating);
+	if (!event.note.isSustainNote)
+		change(event.rating);
 }

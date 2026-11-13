@@ -244,8 +244,8 @@ function createMoreOptionsButton() {
 }
 
 function createMoreOptionsMenu() {
-    var labels = ["Censor Health Icons", "VHS Shader", "CRT Curvature", "New VHS Filter"];
-    var keys   = ["censorHealth", "vhsEnabled", "vhsCurve", "vhsNew"];
+    var labels = ["Censor Health Icons", "VHS Shader", "CRT Curvature", "New VHS Filter", "Show FPS"];
+    var keys   = ["censorHealth", "vhsEnabled", "vhsCurve", "vhsNew", "EEPvfpsCounter"];
 
     moreOptionsPanelGroup = new FlxSpriteGroup();
     add(moreOptionsPanelGroup);
