@@ -234,7 +234,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 				// 灵敏度：默认 1 项 ≈ 0.55 个选项高度，滑起来更省力
 				var raw:Float = dragStartSelected - dy / (itemH * 0.55);
 				var target:Int = Std.int(FlxMath.bound(Math.round(raw), 0, length - 1));
-				if (target != curSelected) setSelected(target, false);
+				if (target != curSelected) setSelected(target, true);
 			}
 
 			var v:Float = (OptionTouch.pointerY - dragLastY) / Math.max(elapsed, 0.001);
@@ -285,7 +285,7 @@ class TreeMenuScreen extends FlxSpriteGroup {
 				listInertia = null;
 				return;
 			}
-			setSelected(next, false);
+			setSelected(next, true);
 			if (--steps <= 0)
 			{
 				t.cancel();
