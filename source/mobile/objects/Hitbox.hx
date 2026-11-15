@@ -5,7 +5,7 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 import flixel.graphics.FlxGraphic;
 import flixel.util.FlxSignal.FlxTypedSignal;
-import openfl.geom.Matrix;
+import flixel.math.FlxMath;
 
 /**
  * A zone with 4 hint's (A hitbox).
