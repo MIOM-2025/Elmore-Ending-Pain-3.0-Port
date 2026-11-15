@@ -110,7 +110,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 				if (hintTween != null)
 					hintTween.cancel();
 
-				hintTween = FlxTween.tween(hint, {alpha: (Options.hitboxAlpha / 100)}, (Options.hitboxAlpha / 100) / 100, {
+				var targetAlpha:Float = FlxMath.bound(Options.hitboxAlpha / 100, 0.1, 1);
+				hintTween = FlxTween.tween(hint, {alpha: targetAlpha}, targetAlpha / 100, {
 					ease: FlxEase.circInOut,
 					onComplete: (twn:FlxTween) -> hintTween = null
 				});
@@ -140,7 +141,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		hint.alpha = 0.00001;
 		hint.canChangeLabelAlpha = true;
 		hint.antialiasing = Options.antialiasing;
-		hint.color = Color;
+		hint.color = 0xFFFFFFFF; // 统一白色描边，不再用四种颜色区分
 		#if FLX_DEBUG
 		hint.ignoreDrawDebug = true;
 		#end
@@ -150,34 +151,12 @@ class Hitbox extends MobileInputManager implements IMobileControls
 	private function createHintGraphic(Width:Int, Height:Int):FlxGraphic
 	{
 		var shape:Shape = new Shape();
-		shape.graphics.beginFill(0xFFFFFF);
 
-		if (Options.hitboxType == "noGradient")
-		{
-			var matrix:Matrix = new Matrix();
-			matrix.createGradientBox(Width, Height, 0, 0, 0);
-
-			shape.graphics.beginGradientFill(RADIAL, [0xFFFFFF, 0xFFFFFF], [0, 1], [60, 255], matrix, PAD, RGB, 0);
-			shape.graphics.drawRect(0, 0, Width, Height);
-			shape.graphics.endFill();
-		}
-		else if (Options.hitboxType == "noGradientOld")
-		{
-			shape.graphics.lineStyle(10, 0xFFFFFF, 1);
-			shape.graphics.drawRect(0, 0, Width, Height);
-			shape.graphics.endFill();
-		}
-		else // if (Options.hitboxType == 'gradient')
-		{
-			shape.graphics.lineStyle(3, 0xFFFFFF, 1);
-			shape.graphics.drawRect(0, 0, Width, Height);
-			shape.graphics.lineStyle(0, 0, 0);
-			shape.graphics.drawRect(3, 3, Width - 6, Height - 6);
-			shape.graphics.endFill();
-			shape.graphics.beginGradientFill(RADIAL, [0xFFFFFF, FlxColor.TRANSPARENT], [1, 0], [0, 255], null, null, null, 0.5);
-			shape.graphics.drawRect(3, 3, Width - 6, Height - 6);
-			shape.graphics.endFill();
-		}
+		// 只画一圈白色边框，内部完全透明（不用渐变/填充/颜色区分）
+		var border:Float = 4;
+		shape.graphics.lineStyle(border, 0xFFFFFF, 1);
+		shape.graphics.drawRect(border / 2, border / 2, Width - border, Height - border);
+		shape.graphics.endFill();
 
 		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
 		bitmap.draw(shape);
