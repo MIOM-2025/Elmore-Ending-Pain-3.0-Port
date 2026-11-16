@@ -49,13 +49,14 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		{
 			var visual:Bool = (Options.hitboxStyle != 'white');
 			var r = blockGameRect();
-			var zw:Float = r.w / 4;
-			var zh:Float = r.h;
+			var rx:Float = r[0], ry:Float = r[1];
+			var zw:Float = r[2] / 4;
+			var zh:Float = r[3];
 
-			buttonLeft = createHint(r.x, r.y, Std.int(zw), Std.int(zh), 0xFFC24B99, visual);
-			buttonDown = createHint(r.x + zw, r.y, Std.int(zw), Std.int(zh), 0xFF00FFFF, visual);
-			buttonUp = createHint(r.x + zw * 2, r.y, Std.int(zw), Std.int(zh), 0xFF12FA05, visual);
-			buttonRight = createHint(r.x + zw * 3, r.y, Std.int(zw), Std.int(zh), 0xFFF9393F, visual);
+			buttonLeft = createHint(rx, ry, Std.int(zw), Std.int(zh), 0xFFC24B99, visual);
+			buttonDown = createHint(rx + zw, ry, Std.int(zw), Std.int(zh), 0xFF00FFFF, visual);
+			buttonUp = createHint(rx + zw * 2, ry, Std.int(zw), Std.int(zh), 0xFF12FA05, visual);
+			buttonRight = createHint(rx + zw * 3, ry, Std.int(zw), Std.int(zh), 0xFFF9393F, visual);
 
 			add(buttonLeft);
 			add(buttonDown);
@@ -96,7 +97,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 	/**
 	 * 屏幕像素 ↔ 游戏坐标的换算（和 FPS 计数器一致）
 	 */
-	function screenMetrics():{sw:Float, sh:Float, sc:Float, ox:Float, oy:Float}
+	/** [sw, sh, sc, ox, oy] */
+	function screenMetrics():Array<Float>
 	{
 		var sw:Float = 0, sh:Float = 0;
 		if (FlxG.stage != null)
@@ -111,41 +113,43 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		}
 		var gw:Float = FlxG.width, gh:Float = FlxG.height;
 		if (gw <= 0 || gh <= 0)
-			return {sw: sw, sh: sh, sc: 1.0, ox: 0.0, oy: 0.0};
+			return [sw, sh, 1.0, 0.0, 0.0];
 		var sc:Float = Math.min(sw / gw, sh / gh);
-		if (sc <= 0) sc = 1;
-		return {sw: sw, sh: sh, sc: sc, ox: (sw - gw * sc) / 2, oy: (sh - gh * sc) / 2};
+		if (sc <= 0) sc = 1.0;
+		return [sw, sh, sc, (sw - gw * sc) / 2, (sh - gh * sc) / 2];
 	}
 
 	/** 四个区合起来的范围（游戏坐标） */
-	function blockGameRect():{x:Float, y:Float, w:Float, h:Float}
+	function blockGameRect():Array<Float>
 	{
 		var m = screenMetrics();
+		var sw:Float = m[0], sh:Float = m[1], sc:Float = m[2], ox:Float = m[3], oy:Float = m[4];
 		switch (Options.hitboxSize)
 		{
 			case 'window':
-				return {x: 0.0, y: 0.0, w: FlxG.width * 1.0, h: FlxG.height * 1.0};
+				return [0.0, 0.0, FlxG.width * 1.0, FlxG.height * 1.0];
 			case 'ratio16x9':
-				var h:Float = FlxG.height;
+				var h:Float = FlxG.height * 1.0;
 				var w:Float = h * 16 / 9;
-				return {x: (FlxG.width - w) / 2, y: 0.0, w: w, h: h};
+				return [(FlxG.width * 1.0 - w) / 2, 0.0, w, h];
 			default: // fullscreen：铺满整个屏幕（含黑边）
-				return {x: -m.ox / m.sc, y: -m.oy / m.sc, w: m.sw / m.sc, h: m.sh / m.sc};
+				return [-ox / sc, -oy / sc, sw / sc, sh / sc];
 		}
 	}
 
 	/** 四个区合起来的范围（舞台像素，给 overlay 用） */
-	function blockPxRect(m):{x:Float, y:Float, w:Float, h:Float}
+	function blockPxRect(m:Array<Float>):Array<Float>
 	{
+		var sw:Float = m[0], sh:Float = m[1], sc:Float = m[2], ox:Float = m[3], oy:Float = m[4];
 		switch (Options.hitboxSize)
 		{
 			case 'window':
-				return {x: m.ox, y: m.oy, w: FlxG.width * m.sc * 1.0, h: FlxG.height * m.sc * 1.0};
+				return [ox, oy, FlxG.width * sc, FlxG.height * sc];
 			case 'ratio16x9':
-				var w:Float = m.sh * 16 / 9;
-				return {x: (m.sw - w) / 2, y: 0.0, w: w, h: m.sh};
+				var w:Float = sh * 16 / 9;
+				return [(sw - w) / 2, 0.0, w, sh];
 			default:
-				return {x: 0.0, y: 0.0, w: m.sw, h: m.sh};
+				return [0.0, 0.0, sw, sh];
 		}
 	}
 
@@ -168,7 +172,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		var m = screenMetrics();
 		var target:Float = FlxMath.bound(Options.hitboxAlpha / 100, 0.1, 1);
 		var r = blockPxRect(m);
-		var w:Float = r.w / 4;
+		var rx:Float = r[0], ry:Float = r[1];
+		var w:Float = r[2] / 4;
 
 		overlay.graphics.clear();
 		for (i in 0...overlayButtons.length)
@@ -176,7 +181,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 			var b = overlayButtons[i];
 			if (b == null || !(b.pressed || b.justPressed)) continue;
 			overlay.graphics.lineStyle(4, 0xFFFFFF, target);
-			overlay.graphics.drawRect(r.x + w * i + 2, r.y + 2, w - 4, r.h - 4);
+			overlay.graphics.drawRect(rx + w * i + 2, ry + 2, w - 4, r[3] - 4);
 		}
 	}
 
