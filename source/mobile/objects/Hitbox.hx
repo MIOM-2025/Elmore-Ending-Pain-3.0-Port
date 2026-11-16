@@ -111,7 +111,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		}
 		var gw:Float = FlxG.width, gh:Float = FlxG.height;
 		if (gw <= 0 || gh <= 0)
-			return {sw: sw, sh: sh, sc: 1, ox: 0, oy: 0};
+			return {sw: sw, sh: sh, sc: 1.0, ox: 0.0, oy: 0.0};
 		var sc:Float = Math.min(sw / gw, sh / gh);
 		if (sc <= 0) sc = 1;
 		return {sw: sw, sh: sh, sc: sc, ox: (sw - gw * sc) / 2, oy: (sh - gh * sc) / 2};
@@ -124,11 +124,11 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		switch (Options.hitboxSize)
 		{
 			case 'window':
-				return {x: 0, y: 0, w: FlxG.width, h: FlxG.height};
+				return {x: 0.0, y: 0.0, w: FlxG.width * 1.0, h: FlxG.height * 1.0};
 			case 'ratio16x9':
 				var h:Float = FlxG.height;
 				var w:Float = h * 16 / 9;
-				return {x: (FlxG.width - w) / 2, y: 0, w: w, h: h};
+				return {x: (FlxG.width - w) / 2, y: 0.0, w: w, h: h};
 			default: // fullscreen：铺满整个屏幕（含黑边）
 				return {x: -m.ox / m.sc, y: -m.oy / m.sc, w: m.sw / m.sc, h: m.sh / m.sc};
 		}
@@ -140,12 +140,12 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		switch (Options.hitboxSize)
 		{
 			case 'window':
-				return {x: m.ox, y: m.oy, w: FlxG.width * m.sc, h: FlxG.height * m.sc};
+				return {x: m.ox, y: m.oy, w: FlxG.width * m.sc * 1.0, h: FlxG.height * m.sc * 1.0};
 			case 'ratio16x9':
 				var w:Float = m.sh * 16 / 9;
-				return {x: (m.sw - w) / 2, y: 0, w: w, h: m.sh};
+				return {x: (m.sw - w) / 2, y: 0.0, w: w, h: m.sh};
 			default:
-				return {x: 0, y: 0, w: m.sw, h: m.sh};
+				return {x: 0.0, y: 0.0, w: m.sw, h: m.sh};
 		}
 	}
 
