@@ -30,7 +30,7 @@ function preStateSwitch() {
     @:privateAccess
 	if (_nextResolution != null && (FlxG.initialWidth != _nextResolution.width || FlxG.initialHeight != _nextResolution.height)) {
 		Main.scaleMode.updateGameSize(FlxG.initialWidth = _nextResolution.width, FlxG.initialHeight = _nextResolution.height);
-		_nextResolution = {width: 1280, height: 720};
+		_nextResolution = {width: 1280, height: 960};
 	}
 }
 
@@ -47,7 +47,7 @@ function postUpdate(elapsed:Float) {
 	FlxG.mouse.visible = (_cursorTimer > 0);
 }
 
-var _nextResolution = {width: 1280, height: 720};
+var _nextResolution = {width: 1280, height: 960};
 public static function resizeGame(width:Int, height:Int) {
 	_nextResolution = {width: width, height: height}
 }
