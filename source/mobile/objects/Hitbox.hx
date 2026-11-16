@@ -71,7 +71,6 @@ class Hitbox extends MobileInputManager implements IMobileControls
 			overlayButtons = [buttonLeft, buttonDown, buttonUp, buttonRight];
 
 			overlay = new Shape();
-			overlay.mouseEnabled = false;
 			if (Main.instance != null)
 				Main.instance.addChild(overlay);
 		}
