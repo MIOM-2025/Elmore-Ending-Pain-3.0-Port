@@ -52,11 +52,12 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		if (!funkin.game.PlayState.qqqeb)
 		{
 			// 四等分整个屏幕（不是 4:3 画布）：上下贴屏幕上下边缘
-			var m = screenMetrics();
-			var zx:Float = -m.ox / m.sc;
-			var zy:Float = -m.oy / m.sc;
-			var zw:Float = m.sw / m.sc / 4;
-			var zh:Float = m.sh / m.sc;
+			// 四个键合起来是一块 16:9 的区域：上下贴屏幕上下边缘，横向居中（比 4:3 画布宽的部分伸进黑边）
+			var blockW:Float = FlxG.height * 16 / 9;
+			var zw:Float = blockW / 4;
+			var zx:Float = (FlxG.width - blockW) / 2;
+			var zy:Float = 0;
+			var zh:Float = FlxG.height;
 
 			buttonLeft = createHint(zx, zy, Std.int(zw), Std.int(zh), 0xFFFFFFFF, false);
 			buttonDown = createHint(zx + zw, zy, Std.int(zw), Std.int(zh), 0xFFFFFFFF, false);
@@ -137,7 +138,11 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		var m = screenMetrics();
 		var target:Float = FlxMath.bound(Options.hitboxAlpha / 100, 0.1, 1);
-		var w:Float = m.sw / 4;
+
+		// 和触摸区一致：16:9 的整块，上下贴屏幕边缘，横向居中
+		var blockW:Float = m.sh * 16 / 9;
+		var blockX:Float = (m.sw - blockW) / 2;
+		var w:Float = blockW / 4;
 
 		overlay.graphics.clear();
 		for (i in 0...overlayButtons.length)
@@ -145,7 +150,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 			var b = overlayButtons[i];
 			if (b == null || !(b.pressed || b.justPressed)) continue;
 			overlay.graphics.lineStyle(4, 0xFFFFFF, target);
-			overlay.graphics.drawRect(w * i + 2, 2, w - 4, m.sh - 4);
+			overlay.graphics.drawRect(blockX + w * i + 2, 2, w - 4, m.sh - 4);
 		}
 	}
 
