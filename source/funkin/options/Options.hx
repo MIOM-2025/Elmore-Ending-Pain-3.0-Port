@@ -65,6 +65,8 @@ class Options
 	public static var hitboxPos:Bool = true;
 	public static var hitboxType:String = 'gradient';
 	public static var hitboxAlpha:Int = 10;
+	public static var hitboxSize:String = 'fullscreen';
+	public static var hitboxStyle:String = 'colorful';
 	public static var oldPadTexture:Bool = false;
 	public static var touchPadAlpha:Int = FlxG.onMobile ? 60 : 0;
 	

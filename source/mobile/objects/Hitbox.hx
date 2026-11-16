@@ -10,8 +10,7 @@ import funkin.backend.system.Main;
 
 /**
  * A zone with 4 hint's (A hitbox).
- * 4 个触摸区铺满整个屏幕（含 4:3 画面两边的留黑），
- * 画面里的花哨渐变改成屏幕级的纯白描边（不透明度 0.1，只在按下时出现）。
+ * 4 个触摸区：尺寸可选 全屏 / 16:9 / 窗口，样式可选 纯白描边 / 原版彩色。
  */
 class Hitbox extends MobileInputManager implements IMobileControls
 {
@@ -31,13 +30,10 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 	var storedButtonsIDs:Map<String, Array<MobileInputID>> = new Map<String, Array<MobileInputID>>();
 
-	// 铺满屏幕的图案（画在舞台层，和 FPS 计数器同一层）
+	// 纯白描边时，画在舞台层（和 FPS 计数器同一层），能画到 4:3 画布外的黑边上
 	var overlay:Shape = null;
 	var overlayButtons:Array<TouchButton> = [];
 
-	/**
-	 * Create the zone.
-	 */
 	public function new()
 	{
 		super();
@@ -51,29 +47,28 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		if (!funkin.game.PlayState.qqqeb)
 		{
-			// 四等分整个屏幕（不是 4:3 画布）：上下贴屏幕上下边缘
-			// 四个键合起来是一块 16:9 的区域：上下贴屏幕上下边缘，横向居中（比 4:3 画布宽的部分伸进黑边）
-			var blockW:Float = FlxG.height * 16 / 9;
-			var zw:Float = blockW / 4;
-			var zx:Float = (FlxG.width - blockW) / 2;
-			var zy:Float = 0;
-			var zh:Float = FlxG.height;
+			var visual:Bool = (Options.hitboxStyle != 'white');
+			var r = blockGameRect();
+			var zw:Float = r.w / 4;
+			var zh:Float = r.h;
 
-			buttonLeft = createHint(zx, zy, Std.int(zw), Std.int(zh), 0xFFFFFFFF, false);
-			buttonDown = createHint(zx + zw, zy, Std.int(zw), Std.int(zh), 0xFFFFFFFF, false);
-			buttonUp = createHint(zx + zw * 2, zy, Std.int(zw), Std.int(zh), 0xFFFFFFFF, false);
-			buttonRight = createHint(zx + zw * 3, zy, Std.int(zw), Std.int(zh), 0xFFFFFFFF, false);
+			buttonLeft = createHint(r.x, r.y, Std.int(zw), Std.int(zh), 0xFFC24B99, visual);
+			buttonDown = createHint(r.x + zw, r.y, Std.int(zw), Std.int(zh), 0xFF00FFFF, visual);
+			buttonUp = createHint(r.x + zw * 2, r.y, Std.int(zw), Std.int(zh), 0xFF12FA05, visual);
+			buttonRight = createHint(r.x + zw * 3, r.y, Std.int(zw), Std.int(zh), 0xFFF9393F, visual);
 
 			add(buttonLeft);
 			add(buttonDown);
 			add(buttonUp);
 			add(buttonRight);
 
-			overlayButtons = [buttonLeft, buttonDown, buttonUp, buttonRight];
-
-			overlay = new Shape();
-			if (Main.instance != null)
-				Main.instance.addChild(overlay);
+			if (!visual)
+			{
+				overlayButtons = [buttonLeft, buttonDown, buttonUp, buttonRight];
+				overlay = new Shape();
+				if (Main.instance != null)
+					Main.instance.addChild(overlay);
+			}
 		}
 		else
 		{
@@ -98,7 +93,9 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		instance = this;
 	}
 
-	/** 屏幕像素 ↔ 游戏坐标的换算（和 FPS 计数器一致） */
+	/**
+	 * 屏幕像素 ↔ 游戏坐标的换算（和 FPS 计数器一致）
+	 */
 	function screenMetrics():{sw:Float, sh:Float, sc:Float, ox:Float, oy:Float}
 	{
 		var sw:Float = 0, sh:Float = 0;
@@ -120,6 +117,38 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		return {sw: sw, sh: sh, sc: sc, ox: (sw - gw * sc) / 2, oy: (sh - gh * sc) / 2};
 	}
 
+	/** 四个区合起来的范围（游戏坐标） */
+	function blockGameRect():{x:Float, y:Float, w:Float, h:Float}
+	{
+		var m = screenMetrics();
+		switch (Options.hitboxSize)
+		{
+			case 'window':
+				return {x: 0, y: 0, w: FlxG.width, h: FlxG.height};
+			case 'ratio16x9':
+				var h:Float = FlxG.height;
+				var w:Float = h * 16 / 9;
+				return {x: (FlxG.width - w) / 2, y: 0, w: w, h: h};
+			default: // fullscreen：铺满整个屏幕（含黑边）
+				return {x: -m.ox / m.sc, y: -m.oy / m.sc, w: m.sw / m.sc, h: m.sh / m.sc};
+		}
+	}
+
+	/** 四个区合起来的范围（舞台像素，给 overlay 用） */
+	function blockPxRect(m):{x:Float, y:Float, w:Float, h:Float}
+	{
+		switch (Options.hitboxSize)
+		{
+			case 'window':
+				return {x: m.ox, y: m.oy, w: FlxG.width * m.sc, h: FlxG.height * m.sc};
+			case 'ratio16x9':
+				var w:Float = m.sh * 16 / 9;
+				return {x: (m.sw - w) / 2, y: 0, w: w, h: m.sh};
+			default:
+				return {x: 0, y: 0, w: m.sw, h: m.sh};
+		}
+	}
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
@@ -138,11 +167,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		var m = screenMetrics();
 		var target:Float = FlxMath.bound(Options.hitboxAlpha / 100, 0.1, 1);
-
-		// 和触摸区一致：16:9 的整块，上下贴屏幕边缘，横向居中
-		var blockW:Float = m.sh * 16 / 9;
-		var blockX:Float = (m.sw - blockW) / 2;
-		var w:Float = blockW / 4;
+		var r = blockPxRect(m);
+		var w:Float = r.w / 4;
 
 		overlay.graphics.clear();
 		for (i in 0...overlayButtons.length)
@@ -150,7 +176,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 			var b = overlayButtons[i];
 			if (b == null || !(b.pressed || b.justPressed)) continue;
 			overlay.graphics.lineStyle(4, 0xFFFFFF, target);
-			overlay.graphics.drawRect(blockX + w * i + 2, 2, w - 4, m.sh - 4);
+			overlay.graphics.drawRect(r.x + w * i + 2, r.y + 2, w - 4, r.h - 4);
 		}
 	}
 
@@ -233,25 +259,31 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		hint.alpha = spriteVisual ? 0.00001 : 0;
 		hint.canChangeLabelAlpha = true;
 		hint.antialiasing = Options.antialiasing;
-		hint.color = 0xFFFFFFFF;
+		hint.color = spriteVisual ? Color : 0xFFFFFFFF;
 		#if FLX_DEBUG
 		hint.ignoreDrawDebug = true;
 		#end
 		return hint;
 	}
 
-	private function createHintGraphic(Width:Int, Height:Int, ?drawBorder:Bool = true):FlxGraphic
+	private function createHintGraphic(Width:Int, Height:Int, ?drawDesign:Bool = true):FlxGraphic
 	{
 		var w:Int = Std.int(Math.max(Width, 1));
 		var h:Int = Std.int(Math.max(Height, 1));
 		var bitmap:BitmapData = new BitmapData(w, h, true, 0);
 
-		if (drawBorder)
+		if (drawDesign)
 		{
+			// 彩色样式：一圈描边 + 内部半透明填充，再用 color 染成四色
 			var shape:Shape = new Shape();
-			var border:Float = 4;
-			shape.graphics.lineStyle(border, 0xFFFFFF, 1);
-			shape.graphics.drawRect(border / 2, border / 2, w - border, h - border);
+			shape.graphics.lineStyle(3, 0xFFFFFF, 1);
+			shape.graphics.drawRect(0, 0, w, h);
+			shape.graphics.lineStyle(0, 0, 0);
+			shape.graphics.drawRect(3, 3, w - 6, h - 6);
+			shape.graphics.endFill();
+			shape.graphics.beginFill(0xFFFFFF, 0.35);
+			shape.graphics.drawRect(3, 3, w - 6, h - 6);
+			shape.graphics.endFill();
 			bitmap.draw(shape);
 		}
 

@@ -56,6 +56,10 @@ class MobileOptions extends TreeMenuScreen
 		}));
 		add(new ArrayOption(getNameID('hitboxType'), getDescID('hitboxType'), ['noGradient', 'noGradientOld', 'gradient', 'hidden'],
 			["No Gradient", "No Gradient (Old)", "Gradient", "Hidden"], 'hitboxType'));
+		add(new ArrayOption(getNameID('hitboxSize'), getDescID('hitboxSize'), ['fullscreen', 'ratio16x9', 'window'],
+			["Full Screen", "16:9", "Window"], 'hitboxSize'));
+		add(new ArrayOption(getNameID('hitboxStyle'), getDescID('hitboxStyle'), ['white', 'colorful'],
+			["White Outline", "Colorful"], 'hitboxStyle'));
 		add(new Checkbox(getNameID('hitboxPos'), getDescID('hitboxPos'), "hitboxPos"));
 		#end
 		#if mobile

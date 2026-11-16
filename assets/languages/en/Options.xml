@@ -116,6 +116,12 @@
 		<str id="hitboxType-name">Hitbox Design</str>
 		<str id="hitboxType-desc">Choose how your Hitbox should look like!</str>
 
+		<str id="hitboxSize-name">Hitbox Size</str>
+		<str id="hitboxSize-desc">How the four hitbox zones are stretched: full screen, standard 16:9, or the game window.</str>
+
+		<str id="hitboxStyle-name">Hitbox Style</str>
+		<str id="hitboxStyle-desc">White outline (transparent inside) or the original colorful blocks.</str>
+
 		<str id="hitboxPos-name">Hitbox Position</str>
 		<str id="hitboxPos-desc">If checked, the Hitbox will be put at the bottom of the screen, otherwise will stay at the top.</str>
 
