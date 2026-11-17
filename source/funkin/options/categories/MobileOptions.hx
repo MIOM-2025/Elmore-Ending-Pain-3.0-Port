@@ -32,8 +32,6 @@ class MobileOptions extends TreeMenuScreen
 
 		#if TOUCH_CONTROLS
 		//add(new ArrayOption(getNameID('extraHints'), getDescID('extraHints'), ['NONE', 'SINGLE', 'DOUBLE'], ["None", "Single", "Double"], 'extraHints'));
-		add(new NumOption("Idle Alpha", "Hitbox opacity while not pressed.", 0, 100, 5, "hitboxAlphaIdle"));
-		add(new NumOption("Press Alpha", "Hitbox opacity while pressed.", 0, 100, 5, "hitboxAlphaPressed"));
 		add(new Checkbox(getNameID('oldPadTexture'), getDescID('oldPadTexture'), "oldPadTexture", () ->
 		{
 			MusicBeatState.getState().removeTouchPad();
@@ -55,10 +53,13 @@ class MobileOptions extends TreeMenuScreen
 				FlxG.sound.muteKeys = [FlxKey.ZERO, FlxKey.NUMPADZERO];
 			}
 		}));
+		// Hitbox 相关选项集中放在一起，方便管理
 		add(new ArrayOption(getNameID('hitboxType'), getDescID('hitboxType'), ['noGradient', 'noGradientOld', 'gradient', 'white', 'hidden'],
 			["No Gradient", "No Gradient (Old)", "Gradient", "White", "Hidden"], 'hitboxType'));
-		add(new ArrayOption("Hit Size", "Stretch the four hitbox zones: full screen, 16:9 or the game window.", ['fullscreen', 'ratio16x9', 'window'],
+		add(new ArrayOption("Hitbox Size", "Stretch the hitbox zones: full screen, 16:9 or the game window.", ['fullscreen', 'ratio16x9', 'window'],
 			["Full", "16:9", "Window"], 'hitboxSize'));
+		add(new NumOption("Hitbox Idle", "Hitbox opacity while not pressed.", 0, 100, 5, "hitboxAlphaIdle"));
+		add(new NumOption("Hitbox Press", "Hitbox opacity while pressed.", 0, 100, 5, "hitboxAlphaPressed"));
 		add(new Checkbox(getNameID('hitboxPos'), getDescID('hitboxPos'), "hitboxPos"));
 		#end
 		#if mobile

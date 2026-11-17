@@ -113,7 +113,7 @@
 		<str id="touchPadAlpha-name">TouchPad Opacity</str>
 		<str id="touchPadAlpha-desc">Change how opaque the TouchPad should be</str>
 
-		<str id="hitboxType-name">Hit Design</str>
+		<str id="hitboxType-name">Hitbox Design</str>
 		<str id="hitboxType-desc">Choose how your Hitbox should look like! White = outline only, inside fully transparent.</str>
 
 		<str id="hitboxSize-name">Hit Size</str>

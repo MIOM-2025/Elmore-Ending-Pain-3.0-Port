@@ -156,6 +156,17 @@ class Hitbox extends MobileInputManager implements IMobileControls
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+		// 死亡界面时整个触控判定隐藏（图案 + 触摸区域）
+		var dead:Bool = (FlxG.state != null && FlxG.state.subState is funkin.game.GameOverSubstate);
+		if (dead)
+		{
+			if (overlay != null) overlay.graphics.clear();
+			if (visible) visible = false;
+			return;
+		}
+		if (!visible) visible = true;
+
 		drawOverlay();
 	}
 
@@ -177,14 +188,31 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		var w:Float = r[2] / 4;
 
 		overlay.graphics.clear();
+
+		// 没按下时只画一个整体区域；按下时只画被按的那一格
+		var pressedIndex:Int = -1;
 		for (i in 0...overlayButtons.length)
 		{
 			var b = overlayButtons[i];
-			if (b == null) continue;
-			var a:Float = (b.pressed || b.justPressed) ? pressA : idleA;
-			if (a <= 0.002) continue;
-			overlay.graphics.lineStyle(4, 0xFFFFFF, a);
-			overlay.graphics.drawRect(rx + w * i + 2, ry + 2, w - 4, r[3] - 4);
+			if (b != null && (b.pressed || b.justPressed))
+			{
+				pressedIndex = i;
+				break;
+			}
+		}
+
+		if (pressedIndex >= 0)
+		{
+			if (pressA > 0.002)
+			{
+				overlay.graphics.lineStyle(4, 0xFFFFFF, pressA);
+				overlay.graphics.drawRect(rx + w * pressedIndex + 2, ry + 2, w - 4, r[3] - 4);
+			}
+		}
+		else if (idleA > 0.002)
+		{
+			overlay.graphics.lineStyle(4, 0xFFFFFF, idleA);
+			overlay.graphics.drawRect(rx + 2, ry + 2, r[2] - 4, r[3] - 4);
 		}
 	}
 
