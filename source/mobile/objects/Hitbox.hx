@@ -170,7 +170,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		}
 
 		var m = screenMetrics();
-		var target:Float = FlxMath.bound(Options.hitboxAlpha / 100, 0.1, 1);
+		var idleA:Float = FlxMath.bound(Options.hitboxAlphaIdle / 100, 0, 1);
+		var pressA:Float = FlxMath.bound(Options.hitboxAlphaPressed / 100, 0, 1);
 		var r = blockPxRect(m);
 		var rx:Float = r[0], ry:Float = r[1];
 		var w:Float = r[2] / 4;
@@ -179,8 +180,10 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		for (i in 0...overlayButtons.length)
 		{
 			var b = overlayButtons[i];
-			if (b == null || !(b.pressed || b.justPressed)) continue;
-			overlay.graphics.lineStyle(4, 0xFFFFFF, target);
+			if (b == null) continue;
+			var a:Float = (b.pressed || b.justPressed) ? pressA : idleA;
+			if (a <= 0.002) continue;
+			overlay.graphics.lineStyle(4, 0xFFFFFF, a);
 			overlay.graphics.drawRect(rx + w * i + 2, ry + 2, w - 4, r[3] - 4);
 		}
 	}
@@ -230,8 +233,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 				if (hintTween != null)
 					hintTween.cancel();
 
-				var targetAlpha:Float = FlxMath.bound(Options.hitboxAlpha / 100, 0.1, 1);
-				hintTween = FlxTween.tween(hint, {alpha: targetAlpha}, targetAlpha / 100, {
+				var targetAlpha:Float = FlxMath.bound(Options.hitboxAlphaPressed / 100, 0, 1);
+				hintTween = FlxTween.tween(hint, {alpha: targetAlpha}, 0.08, {
 					ease: FlxEase.circInOut,
 					onComplete: (twn:FlxTween) -> hintTween = null
 				});
@@ -247,7 +250,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 				if (hintTween != null)
 					hintTween.cancel();
 
-				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, (Options.hitboxAlpha / 100) / 10, {
+				var idleAlpha:Float = FlxMath.bound(Options.hitboxAlphaIdle / 100, 0, 1);
+				hintTween = FlxTween.tween(hint, {alpha: idleAlpha}, 0.08, {
 					ease: FlxEase.circInOut,
 					onComplete: (twn:FlxTween) -> hintTween = null
 				});
@@ -261,7 +265,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		hint.immovable = hint.multiTouch = true;
 		hint.solid = hint.moves = false;
-		hint.alpha = spriteVisual ? 0.00001 : 0;
+		hint.alpha = spriteVisual ? FlxMath.bound(Options.hitboxAlphaIdle / 100, 0, 1) : 0;
 		hint.canChangeLabelAlpha = true;
 		hint.antialiasing = Options.antialiasing;
 		hint.color = spriteVisual ? Color : 0xFFFFFFFF;

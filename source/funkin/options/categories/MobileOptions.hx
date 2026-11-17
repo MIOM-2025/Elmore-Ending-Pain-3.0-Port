@@ -32,7 +32,8 @@ class MobileOptions extends TreeMenuScreen
 
 		#if TOUCH_CONTROLS
 		//add(new ArrayOption(getNameID('extraHints'), getDescID('extraHints'), ['NONE', 'SINGLE', 'DOUBLE'], ["None", "Single", "Double"], 'extraHints'));
-		add(new NumOption(getNameID('hitboxAlpha'), getDescID('hitboxAlpha'), 0, 100, 5, "hitboxAlpha"));
+		add(new NumOption("Idle Alpha", "Hitbox opacity while not pressed.", 0, 100, 5, "hitboxAlphaIdle"));
+		add(new NumOption("Press Alpha", "Hitbox opacity while pressed.", 0, 100, 5, "hitboxAlphaPressed"));
 		add(new Checkbox(getNameID('oldPadTexture'), getDescID('oldPadTexture'), "oldPadTexture", () ->
 		{
 			MusicBeatState.getState().removeTouchPad();
