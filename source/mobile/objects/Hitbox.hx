@@ -189,30 +189,17 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		overlay.graphics.clear();
 
-		// 没按下时只画一个整体区域；按下时只画被按的那一格
-		var pressedIndex:Int = -1;
+		// 四格各自独立渲染：没按下用 idle 透明度，按下的那格用 press 透明度
 		for (i in 0...overlayButtons.length)
 		{
 			var b = overlayButtons[i];
-			if (b != null && (b.pressed || b.justPressed))
-			{
-				pressedIndex = i;
-				break;
-			}
-		}
+			if (b == null) continue;
 
-		if (pressedIndex >= 0)
-		{
-			if (pressA > 0.002)
-			{
-				overlay.graphics.lineStyle(4, 0xFFFFFF, pressA);
-				overlay.graphics.drawRect(rx + w * pressedIndex + 2, ry + 2, w - 4, r[3] - 4);
-			}
-		}
-		else if (idleA > 0.002)
-		{
-			overlay.graphics.lineStyle(4, 0xFFFFFF, idleA);
-			overlay.graphics.drawRect(rx + 2, ry + 2, r[2] - 4, r[3] - 4);
+			var a:Float = (b.pressed || b.justPressed) ? pressA : idleA;
+			if (a <= 0.002) continue;
+
+			overlay.graphics.lineStyle(4, 0xFFFFFF, a);
+			overlay.graphics.drawRect(rx + w * i + 2, ry + 2, w - 4, r[3] - 4);
 		}
 	}
 
