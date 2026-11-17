@@ -47,7 +47,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		if (!funkin.game.PlayState.qqqeb)
 		{
-			var visual:Bool = (Options.hitboxStyle != 'white');
+			var visual:Bool = (Options.hitboxType != 'white');
 			var r = blockGameRect();
 			var rx:Float = r[0], ry:Float = r[1];
 			var zw:Float = r[2] / 4;
@@ -279,16 +279,31 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		if (drawDesign)
 		{
-			// 彩色样式：一圈描边 + 内部半透明填充，再用 color 染成四色
+			// 按 Hit Design 的设定画，再用 color 染成四色
 			var shape:Shape = new Shape();
-			shape.graphics.lineStyle(3, 0xFFFFFF, 1);
-			shape.graphics.drawRect(0, 0, w, h);
-			shape.graphics.lineStyle(0, 0, 0);
-			shape.graphics.drawRect(3, 3, w - 6, h - 6);
-			shape.graphics.endFill();
-			shape.graphics.beginFill(0xFFFFFF, 0.35);
-			shape.graphics.drawRect(3, 3, w - 6, h - 6);
-			shape.graphics.endFill();
+			if (Options.hitboxType == 'noGradient')
+			{
+				shape.graphics.lineStyle(12, 0xFFFFFF, 1);
+				shape.graphics.drawRect(6, 6, w - 12, h - 12);
+				shape.graphics.endFill();
+			}
+			else if (Options.hitboxType == 'noGradientOld')
+			{
+				shape.graphics.lineStyle(10, 0xFFFFFF, 1);
+				shape.graphics.drawRect(5, 5, w - 10, h - 10);
+				shape.graphics.endFill();
+			}
+			else // gradient
+			{
+				shape.graphics.lineStyle(3, 0xFFFFFF, 1);
+				shape.graphics.drawRect(0, 0, w, h);
+				shape.graphics.lineStyle(0, 0, 0);
+				shape.graphics.drawRect(3, 3, w - 6, h - 6);
+				shape.graphics.endFill();
+				shape.graphics.beginFill(0xFFFFFF, 0.35);
+				shape.graphics.drawRect(3, 3, w - 6, h - 6);
+				shape.graphics.endFill();
+			}
 			bitmap.draw(shape);
 		}
 

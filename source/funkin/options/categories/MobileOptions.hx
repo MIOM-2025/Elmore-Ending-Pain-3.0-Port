@@ -54,12 +54,10 @@ class MobileOptions extends TreeMenuScreen
 				FlxG.sound.muteKeys = [FlxKey.ZERO, FlxKey.NUMPADZERO];
 			}
 		}));
-		add(new ArrayOption(getNameID('hitboxType'), getDescID('hitboxType'), ['noGradient', 'noGradientOld', 'gradient', 'hidden'],
-			["No Gradient", "No Gradient (Old)", "Gradient", "Hidden"], 'hitboxType'));
-		add(new ArrayOption(getNameID('hitboxSize'), getDescID('hitboxSize'), ['fullscreen', 'ratio16x9', 'window'],
-			["Full Screen", "16:9", "Window"], 'hitboxSize'));
-		add(new ArrayOption(getNameID('hitboxStyle'), getDescID('hitboxStyle'), ['white', 'colorful'],
-			["White Outline", "Colorful"], 'hitboxStyle'));
+		add(new ArrayOption(getNameID('hitboxType'), getDescID('hitboxType'), ['noGradient', 'noGradientOld', 'gradient', 'white', 'hidden'],
+			["No Gradient", "No Gradient (Old)", "Gradient", "White", "Hidden"], 'hitboxType'));
+		add(new ArrayOption("Hit Size", "Stretch the four hitbox zones: full screen, 16:9 or the game window.", ['fullscreen', 'ratio16x9', 'window'],
+			["Full", "16:9", "Window"], 'hitboxSize'));
 		add(new Checkbox(getNameID('hitboxPos'), getDescID('hitboxPos'), "hitboxPos"));
 		#end
 		#if mobile
