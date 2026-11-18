@@ -58,8 +58,8 @@ class MobileOptions extends TreeMenuScreen
 			["No Gradient", "No Gradient (Old)", "Gradient", "White", "Hidden"], 'hitboxType'));
 		add(new ArrayOption("Hitbox Size", "Stretch the hitbox zones: full screen, 16:9 or the game window.", ['fullscreen', 'ratio16x9', 'window'],
 			["Full", "16:9", "Window"], 'hitboxSize'));
-		add(new NumOption("Hitbox Idle", "Hitbox opacity while not pressed.", 0, 100, 5, "hitboxAlphaIdle"));
-		add(new NumOption("Hitbox Press", "Hitbox opacity while pressed.", 0, 100, 5, "hitboxAlphaPressed"));
+		add(new NumOption("Hitbox Opacity Idle", "How transparent the hitbox is when you are NOT pressing it.", 0, 100, 5, "hitboxAlphaIdle"));
+		add(new NumOption("Hitbox Opacity Press", "How transparent the hitbox is WHILE you press it.", 0, 100, 5, "hitboxAlphaPressed"));
 		add(new Checkbox(getNameID('hitboxPos'), getDescID('hitboxPos'), "hitboxPos"));
 		#end
 		#if mobile

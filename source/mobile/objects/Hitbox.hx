@@ -47,7 +47,7 @@ class Hitbox extends MobileInputManager implements IMobileControls
 
 		if (!funkin.game.PlayState.qqqeb)
 		{
-			var visual:Bool = (Options.hitboxType != 'white');
+			var visual:Bool = (Options.hitboxType != 'white' && Options.hitboxType != 'hidden');
 			var r = blockGameRect();
 			var rx:Float = r[0], ry:Float = r[1];
 			var zw:Float = r[2] / 4;
