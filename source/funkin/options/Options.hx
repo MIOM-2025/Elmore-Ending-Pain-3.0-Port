@@ -66,7 +66,7 @@ class Options
 	public static var hitboxType:String = 'white';
 	public static var hitboxAlpha:Int = 10;
 	public static var hitboxAlphaIdle:Int = 10;
-	public static var hitboxAlphaPressed:Int = 10;
+	public static var hitboxAlphaPressed:Int = 20;
 	public static var hitboxSize:String = 'ratio16x9';
 	public static var oldPadTexture:Bool = false;
 	public static var touchPadAlpha:Int = FlxG.onMobile ? 60 : 0;
