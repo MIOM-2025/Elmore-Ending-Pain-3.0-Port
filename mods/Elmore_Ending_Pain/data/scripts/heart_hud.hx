@@ -39,10 +39,9 @@ function postCreate() {
     bords.camera = camHUD;
     grpHudUIAssets.add(bords);
 
-    var censorHealth:Bool = (FlxG.save.data != null && FlxG.save.data.censorHealth == true);
-    var heartAsset:String = censorHealth ? "hud/life2" : "hud/heart";
-    if (censorHealth && !Assets.exists(Paths.image(heartAsset))) heartAsset = "hud/heart";
-    usingLife2 = (heartAsset == "hud/life2");
+    // 生命图标固定用模组原版（不再提供替换图标选项）
+    var heartAsset:String = "hud/heart";
+    usingLife2 = false;
     heart = new FlxSprite(88, 600 + (Options.downscroll) ? 75 : 630).loadGraphic(Paths.image(heartAsset));
     if (usingLife2) {
         // life2 is shorter than the original heart: nudge it down and slightly smaller.
@@ -88,7 +87,7 @@ function postCreate() {
 function syncHpPositions() {
     if (bords == null || finesHP == null) return;
     var bordsVisualCenterY:Float = bords.y + (bords.height * bords.scale.y) * 0.5;
-    var spriteY:Float = bordsVisualCenterY - hpCanvasH / 2 + hpYOffset - 1; // 整体上提 1px
+    var spriteY:Float = bordsVisualCenterY - hpCanvasH / 2 + hpYOffset - 4; // 整体上提 4px
 
     for (i in 0...finesHP.length) {
         var hpThing:FlxSprite = cast finesHP.members[i];
