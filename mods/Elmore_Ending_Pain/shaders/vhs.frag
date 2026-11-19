@@ -148,17 +148,18 @@ void main()
 	vec3 finalColor = pow(rgb, vec3(NTSC_CRT_GAMMA / NTSC_MONITOR_GAMMA));
 
 	// --- CRT horizontal scanlines ---
-	// A tiny phase warp keeps the line spacing from looking mechanically perfect.
+	// Fixed line count instead of a 2px period: a high frequency pattern fights
+	// the display scaling and produces moire, so keep the bands wide and soft.
 	float scanWarp = 0.035 * sin(fragCoord.y * 0.13);
-	float scan = 0.5 + 0.5 * cos(fragCoord.y * PI + scanWarp);
-	// Sharpen the dark bands so the horizontal stripes read clearly on the default look.
-	scan = pow(scan, 1.55);
-	float scanMask = mix(0.70, 1.04, scan);
-	vec3 scanTint = mix(vec3(1.015, 0.985, 1.0), vec3(0.985, 1.0, 1.015), scan);
+	float scanPhase = fragCoord.y / openfl_TextureSize.y * 200.0 * 6.2831853 + scanWarp;
+	float scan = 0.5 + 0.5 * cos(scanPhase);
+	scan = smoothstep(0.18, 0.92, scan);
+	float scanMask = mix(0.80, 1.02, scan);
+	vec3 scanTint = mix(vec3(1.012, 0.988, 1.0), vec3(0.988, 1.0, 1.012), scan);
 	finalColor *= scanMask * scanTint;
 
 	// Very subtle per-line colour breathing; keeps the stripes alive without shimmering.
-	float lineVariation = 0.5 + 0.5 * sin(fragCoord.y * 0.37 + float(uFrame) * 0.05);
+	float lineVariation = 0.5 + 0.5 * sin(fragCoord.y / openfl_TextureSize.y * 60.0 * 6.2831853 + float(uFrame) * 0.05);
 	finalColor += (lineVariation - 0.5) * vec3(0.012, -0.006, 0.010);
 
 	gl_FragColor = vec4(finalColor, flixel_texture2D(bitmap, uv).a);
