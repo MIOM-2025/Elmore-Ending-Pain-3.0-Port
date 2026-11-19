@@ -151,9 +151,9 @@ void main()
 	// Fixed line count instead of a 2px period: a high frequency pattern fights
 	// the display scaling and produces moire, so keep the bands wide and soft.
 	float scanWarp = 0.035 * sin(fragCoord.y * 0.13);
-	float scanPhase = fragCoord.y / openfl_TextureSize.y * 200.0 * 6.2831853 + scanWarp;
+	float scanPhase = fragCoord.y / openfl_TextureSize.y * 300.0 * 6.2831853 + scanWarp;
 	float scan = 0.5 + 0.5 * cos(scanPhase);
-	scan = smoothstep(0.18, 0.92, scan);
+	scan = smoothstep(0.22, 0.90, scan);
 	float scanMask = mix(0.80, 1.02, scan);
 	vec3 scanTint = mix(vec3(1.012, 0.988, 1.0), vec3(0.988, 1.0, 1.012), scan);
 	finalColor *= scanMask * scanTint;
