@@ -87,7 +87,7 @@ function postCreate() {
 function syncHpPositions() {
     if (bords == null || finesHP == null) return;
     var bordsVisualCenterY:Float = bords.y + (bords.height * bords.scale.y) * 0.5;
-    var spriteY:Float = bordsVisualCenterY - hpCanvasH / 2 + hpYOffset - 3; // 整体上提 3px
+    var spriteY:Float = bordsVisualCenterY - hpCanvasH / 2 + hpYOffset - 2; // 整体上提 2px
 
     for (i in 0...finesHP.length) {
         var hpThing:FlxSprite = cast finesHP.members[i];
