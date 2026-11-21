@@ -151,9 +151,7 @@ void main()
 	// A tiny phase warp keeps the line spacing from looking mechanically perfect.
 	float scanWarp = 0.035 * sin(fragCoord.y * 0.13);
 	float scan = 0.5 + 0.5 * cos(fragCoord.y * PI + scanWarp);
-	// Sharpen the dark bands so the horizontal stripes read clearly on the default look.
-	scan = pow(scan, 1.55);
-	float scanMask = mix(0.70, 1.04, scan);
+	float scanMask = mix(0.88, 1.0, scan);
 	vec3 scanTint = mix(vec3(1.015, 0.985, 1.0), vec3(0.985, 1.0, 1.015), scan);
 	finalColor *= scanMask * scanTint;
 
